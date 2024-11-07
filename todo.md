@@ -1,0 +1,2 @@
+-> Moved to modular design pattern
+-> Next task: Make all the file connection to run the project

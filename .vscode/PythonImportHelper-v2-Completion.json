@@ -1,0 +1,383 @@
+[
+    {
+        "label": "UserModel",
+        "importPath": "app.user.user_model",
+        "description": "app.user.user_model",
+        "isExtraImport": true,
+        "detail": "app.user.user_model",
+        "documentation": {}
+    },
+    {
+        "label": "tkinter",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "font",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "ttk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "font",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "ttk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "Tk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "AuthController",
+        "importPath": "app.auth.auth_controller",
+        "description": "app.auth.auth_controller",
+        "isExtraImport": true,
+        "detail": "app.auth.auth_controller",
+        "documentation": {}
+    },
+    {
+        "label": "AuthController",
+        "importPath": "app.auth.auth_controller",
+        "description": "app.auth.auth_controller",
+        "isExtraImport": true,
+        "detail": "app.auth.auth_controller",
+        "documentation": {}
+    },
+    {
+        "label": "PRIMARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "SECONDARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "APP_NAME",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "DB_CONFIG",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "RoomModel",
+        "importPath": "app.room.room_model",
+        "description": "app.room.room_model",
+        "isExtraImport": true,
+        "detail": "app.room.room_model",
+        "documentation": {}
+    },
+    {
+        "label": "mysql.connector",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "mysql.connector",
+        "description": "mysql.connector",
+        "detail": "mysql.connector",
+        "documentation": {}
+    },
+    {
+        "label": "RoomController",
+        "importPath": "app.room.room_controller",
+        "description": "app.room.room_controller",
+        "isExtraImport": true,
+        "detail": "app.room.room_controller",
+        "documentation": {}
+    },
+    {
+        "label": "bcrypt",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "bcrypt",
+        "description": "bcrypt",
+        "detail": "bcrypt",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "pymysql",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pymysql",
+        "description": "pymysql",
+        "detail": "pymysql",
+        "documentation": {}
+    },
+    {
+        "label": "LoginView",
+        "importPath": "app.auth.login_view",
+        "description": "app.auth.login_view",
+        "isExtraImport": true,
+        "detail": "app.auth.login_view",
+        "documentation": {}
+    },
+    {
+        "label": "DashboardView",
+        "importPath": "app.dashboard.dashboard_view",
+        "description": "app.dashboard.dashboard_view",
+        "isExtraImport": true,
+        "detail": "app.dashboard.dashboard_view",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileView",
+        "importPath": "app.user.profile_view",
+        "description": "app.user.profile_view",
+        "isExtraImport": true,
+        "detail": "app.user.profile_view",
+        "documentation": {}
+    },
+    {
+        "label": "RegistrationView",
+        "importPath": "app.auth.registration_view",
+        "description": "app.auth.registration_view",
+        "isExtraImport": true,
+        "detail": "app.auth.registration_view",
+        "documentation": {}
+    },
+    {
+        "label": "AuthController",
+        "kind": 6,
+        "importPath": "app.auth.auth_controller",
+        "description": "app.auth.auth_controller",
+        "peekOfCode": "class AuthController:\n    def __init__(self):\n        self.user_model = UserModel()\n    def login(self, username, password):\n        return self.user_model.authenticate_user(username, password)\n    def register(self, name, username, password):\n        try:\n            self.user_model.register_user(name, username, password)\n            return True\n        except Exception as e:",
+        "detail": "app.auth.auth_controller",
+        "documentation": {}
+    },
+    {
+        "label": "LoginView",
+        "kind": 6,
+        "importPath": "app.auth.login_view",
+        "description": "app.auth.login_view",
+        "peekOfCode": "class LoginView:\n    def __init__(self, root, switch_to_registration, switch_to_dashboard):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_registration = switch_to_registration\n        self.switch_to_dashboard = switch_to_dashboard\n        self.root.title(\"Login\")\n        self.root.geometry(\"1000x600\")\n        # Main container frame for the split design\n        container = tk.Frame(root, bg=\"white\")",
+        "detail": "app.auth.login_view",
+        "documentation": {}
+    },
+    {
+        "label": "RegistrationView",
+        "kind": 6,
+        "importPath": "app.auth.registration_view",
+        "description": "app.auth.registration_view",
+        "peekOfCode": "class RegistrationView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_login = switch_to_login\n        self.root.title(\"Registration\")\n        self.root.geometry(\"1000x600\")\n        # Main container frame for split design\n        container = tk.Frame(root, bg=\"white\")\n        container.pack(fill=\"both\", expand=True)",
+        "detail": "app.auth.registration_view",
+        "documentation": {}
+    },
+    {
+        "label": "BillingView",
+        "kind": 6,
+        "importPath": "app.billing.billing_view",
+        "description": "app.billing.billing_view",
+        "peekOfCode": "class BillingView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Billing Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "detail": "app.billing.billing_view",
+        "documentation": {}
+    },
+    {
+        "label": "CustomersView",
+        "kind": 6,
+        "importPath": "app.customer.customers_view",
+        "description": "app.customer.customers_view",
+        "peekOfCode": "class CustomersView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Customer Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "detail": "app.customer.customers_view",
+        "documentation": {}
+    },
+    {
+        "label": "DashboardView",
+        "kind": 6,
+        "importPath": "app.dashboard.dashboard_view",
+        "description": "app.dashboard.dashboard_view",
+        "peekOfCode": "class DashboardView:\n    def __init__(self, root, switch_to_login, switch_to_profile):\n        self.root = root\n        self.switch_to_login = switch_to_login\n        self.switch_to_profile = switch_to_profile\n        # Configure main window\n        self.root.title(APP_NAME)\n        self.root.geometry(\"1024x768\")\n        # Main Frame\n        main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)",
+        "detail": "app.dashboard.dashboard_view",
+        "documentation": {}
+    },
+    {
+        "label": "ReservationsView",
+        "kind": 6,
+        "importPath": "app.reservation.reservations_view",
+        "description": "app.reservation.reservations_view",
+        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Reservation Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "detail": "app.reservation.reservations_view",
+        "documentation": {}
+    },
+    {
+        "label": "RoomController",
+        "kind": 6,
+        "importPath": "app.room.room_controller",
+        "description": "app.room.room_controller",
+        "peekOfCode": "class RoomController:\n    def __init__(self, view):\n        self.model = RoomModel()\n        self.view = view\n        self.view.set_controller(self)  # Pass self to view to handle callbacks\n    def add_room(self, room_no, room_type, price, status):\n        self.model.create_room(room_no, room_type, price, status)\n        self.refresh_room_list()\n    def get_all_rooms(self):\n        return self.model.fetch_all_rooms()",
+        "detail": "app.room.room_controller",
+        "documentation": {}
+    },
+    {
+        "label": "RoomModel",
+        "kind": 6,
+        "importPath": "app.room.room_model",
+        "description": "app.room.room_model",
+        "peekOfCode": "class RoomModel:\n    def __init__(self):\n        self.conn = mysql.connector.connect(**DB_CONFIG)\n        self.cursor = self.conn.cursor(dictionary=True)\n    def create_room(self, room_no, room_type, price, status, created_by=1):\n        query = \"INSERT INTO Room (roomNo, type, price, status, createdBy) VALUES (%s, %s, %s, %s, %s)\"\n        self.cursor.execute(query, (room_no, room_type, price, status, created_by))\n        self.conn.commit()\n    def fetch_all_rooms(self):\n        query = \"SELECT * FROM Room\"",
+        "detail": "app.room.room_model",
+        "documentation": {}
+    },
+    {
+        "label": "RoomsView",
+        "kind": 6,
+        "importPath": "app.room.room_view",
+        "description": "app.room.room_view",
+        "peekOfCode": "class RoomsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False  # Track whether we're in \"edit\" mode\n        self.current_room_id = None  # Track room being edited\n        self.controller = RoomController()\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)",
+        "detail": "app.room.room_view",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileView",
+        "kind": 6,
+        "importPath": "app.user.profile_view",
+        "description": "app.user.profile_view",
+        "peekOfCode": "class ProfileView:\n    def __init__(self, root, switch_to_dashboard):\n        self.root = root\n        self.switch_to_dashboard = switch_to_dashboard\n        self.root.title(\"Profile\")\n        self.root.geometry(\"400x300\")\n        # Profile form for updating details\n        tk.Label(root, text=\"Update Profile\", font=(\"Helvetica\", 18)).pack(pady=20)\n        tk.Label(root, text=\"Name\", font=(\"Helvetica\", 12)).pack(anchor='w', padx=20)\n        self.name_entry = tk.Entry(root, font=(\"Helvetica\", 12))",
+        "detail": "app.user.profile_view",
+        "documentation": {}
+    },
+    {
+        "label": "UserModel",
+        "kind": 6,
+        "importPath": "app.user.user_model",
+        "description": "app.user.user_model",
+        "peekOfCode": "class UserModel:\n    def __init__(self):\n        self.db = Database()\n    def register_user(self, name, username, password):\n        print(name, username, password)\n        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())\n        print(\"password hashed: \", hashed_password)\n        connection = self.db.connect()\n        print(\"connection built\")\n        cursor = connection.cursor()",
+        "detail": "app.user.user_model",
+        "documentation": {}
+    },
+    {
+        "label": "PRIMARY_COLOR",
+        "kind": 5,
+        "importPath": "app.config",
+        "description": "app.config",
+        "peekOfCode": "PRIMARY_COLOR = \"#3B1E54\"\nSECONDARY_COLOR = \"#EEEEEE\"\n# Other configuration settings\nAPP_NAME = \"Hotel Room Management System\"",
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "SECONDARY_COLOR",
+        "kind": 5,
+        "importPath": "app.config",
+        "description": "app.config",
+        "peekOfCode": "SECONDARY_COLOR = \"#EEEEEE\"\n# Other configuration settings\nAPP_NAME = \"Hotel Room Management System\"",
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "APP_NAME",
+        "kind": 5,
+        "importPath": "app.config",
+        "description": "app.config",
+        "peekOfCode": "APP_NAME = \"Hotel Room Management System\"",
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "kind": 6,
+        "importPath": "app.database",
+        "description": "app.database",
+        "peekOfCode": "class Database:\n  def __init__(self):\n    self.connection = None\n  def connect(self):\n    try:\n      self.connection = pymysql.connect(\n        host=\"localhost\",\n        user=\"root\",\n        password=\"\",\n        database=\"hotel_room_management\",",
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "App",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Main Code\n        # self.show_login()\n        # Debug Purpose start\n        self.show_dashboard()\n        # Debug Purpose end\n    def show_login(self):\n        # Clear the root frame for new view",
+        "detail": "main",
+        "documentation": {}
+    }
+]
