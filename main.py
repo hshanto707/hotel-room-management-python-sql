@@ -1,7 +1,6 @@
 from tkinter import Tk
 from app.auth.login_view import LoginView
 from app.dashboard.dashboard_view import DashboardView
-from app.user.profile_view import ProfileView
 from app.auth.registration_view import RegistrationView
 
 class App:
@@ -28,8 +27,8 @@ class App:
         # Clear the root frame for new view
         for widget in self.root.winfo_children():
             widget.destroy()
-        # Initialize dashboard view and pass the callbacks for logout and profile
-        DashboardView(self.root, self.show_login, self.show_profile)
+        # Initialize dashboard view and pass the callbacks for logout
+        DashboardView(self.root, self.show_login)
 
     def show_registration(self):
         # Clear the root frame for new view
@@ -42,8 +41,6 @@ class App:
         # Clear the root frame for new view
         for widget in self.root.winfo_children():
             widget.destroy()
-        # Initialize profile view and pass the callback to go back to dashboard
-        ProfileView(self.root, self.show_dashboard)
 
 if __name__ == "__main__":
     root = Tk()

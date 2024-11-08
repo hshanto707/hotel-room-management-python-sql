@@ -81,6 +81,14 @@
         "documentation": {}
     },
     {
+        "label": "ttk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
         "label": "messagebox",
         "importPath": "tkinter",
         "description": "tkinter",
@@ -137,11 +145,11 @@
         "documentation": {}
     },
     {
-        "label": "DB_CONFIG",
-        "importPath": "app.config",
-        "description": "app.config",
+        "label": "ProfileView",
+        "importPath": "app.user.profile_view",
+        "description": "app.user.profile_view",
         "isExtraImport": true,
-        "detail": "app.config",
+        "detail": "app.user.profile_view",
         "documentation": {}
     },
     {
@@ -153,12 +161,44 @@
         "documentation": {}
     },
     {
-        "label": "mysql.connector",
+        "label": "pymysql",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "mysql.connector",
-        "description": "mysql.connector",
-        "detail": "mysql.connector",
+        "importPath": "pymysql",
+        "description": "pymysql",
+        "detail": "pymysql",
+        "documentation": {}
+    },
+    {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "RoomController",
+        "importPath": "app.room.room_controller",
+        "description": "app.room.room_controller",
+        "isExtraImport": true,
+        "detail": "app.room.room_controller",
         "documentation": {}
     },
     {
@@ -179,23 +219,6 @@
         "documentation": {}
     },
     {
-        "label": "Database",
-        "importPath": "app.database",
-        "description": "app.database",
-        "isExtraImport": true,
-        "detail": "app.database",
-        "documentation": {}
-    },
-    {
-        "label": "pymysql",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pymysql",
-        "description": "pymysql",
-        "detail": "pymysql",
-        "documentation": {}
-    },
-    {
         "label": "LoginView",
         "importPath": "app.auth.login_view",
         "description": "app.auth.login_view",
@@ -209,14 +232,6 @@
         "description": "app.dashboard.dashboard_view",
         "isExtraImport": true,
         "detail": "app.dashboard.dashboard_view",
-        "documentation": {}
-    },
-    {
-        "label": "ProfileView",
-        "importPath": "app.user.profile_view",
-        "description": "app.user.profile_view",
-        "isExtraImport": true,
-        "detail": "app.user.profile_view",
         "documentation": {}
     },
     {
@@ -277,7 +292,7 @@
         "kind": 6,
         "importPath": "app.dashboard.dashboard_view",
         "description": "app.dashboard.dashboard_view",
-        "peekOfCode": "class DashboardView:\n    def __init__(self, root, switch_to_login, switch_to_profile):\n        self.root = root\n        self.switch_to_login = switch_to_login\n        self.switch_to_profile = switch_to_profile\n        # Configure main window\n        self.root.title(APP_NAME)\n        self.root.geometry(\"1024x768\")\n        # Main Frame\n        main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)",
+        "peekOfCode": "class DashboardView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.switch_to_login = switch_to_login\n        # Configure main window\n        self.root.title(APP_NAME)\n        self.root.geometry(\"1024x768\")\n        # Main Frame\n        main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)\n        main_frame.pack(fill=\"both\", expand=True)",
         "detail": "app.dashboard.dashboard_view",
         "documentation": {}
     },
@@ -295,7 +310,7 @@
         "kind": 6,
         "importPath": "app.room.room_controller",
         "description": "app.room.room_controller",
-        "peekOfCode": "class RoomController:\n    def __init__(self, view):\n        self.model = RoomModel()\n        self.view = view\n        self.view.set_controller(self)  # Pass self to view to handle callbacks\n    def add_room(self, room_no, room_type, price, status):\n        self.model.create_room(room_no, room_type, price, status)\n        self.refresh_room_list()\n    def get_all_rooms(self):\n        return self.model.fetch_all_rooms()",
+        "peekOfCode": "class RoomController:\n    def __init__(self, view):\n        self.model = RoomModel()\n        self.view = view\n    def add_room(self, room_no, room_type, price, status):\n        self.model.create_room(room_no, room_type, price, status)\n        self.refresh_room_list()\n    def get_all_rooms(self):\n        return self.model.fetch_all_rooms()\n    def search_rooms(self, keyword):",
         "detail": "app.room.room_controller",
         "documentation": {}
     },
@@ -304,7 +319,7 @@
         "kind": 6,
         "importPath": "app.room.room_model",
         "description": "app.room.room_model",
-        "peekOfCode": "class RoomModel:\n    def __init__(self):\n        self.conn = mysql.connector.connect(**DB_CONFIG)\n        self.cursor = self.conn.cursor(dictionary=True)\n    def create_room(self, room_no, room_type, price, status, created_by=1):\n        query = \"INSERT INTO Room (roomNo, type, price, status, createdBy) VALUES (%s, %s, %s, %s, %s)\"\n        self.cursor.execute(query, (room_no, room_type, price, status, created_by))\n        self.conn.commit()\n    def fetch_all_rooms(self):\n        query = \"SELECT * FROM Room\"",
+        "peekOfCode": "class RoomModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        # Use DictCursor to get results as dictionaries\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_room(self, room_no, room_type, price, status, created_by=1):\n        query = \"INSERT INTO rooms (roomNo, type, price, status, createdBy) VALUES (%s, %s, %s, %s, %s)\"\n        self.cursor.execute(query, (room_no, room_type, price, status, created_by))",
         "detail": "app.room.room_model",
         "documentation": {}
     },
@@ -313,7 +328,7 @@
         "kind": 6,
         "importPath": "app.room.room_view",
         "description": "app.room.room_view",
-        "peekOfCode": "class RoomsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False  # Track whether we're in \"edit\" mode\n        self.current_room_id = None  # Track room being edited\n        self.controller = RoomController()\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)",
+        "peekOfCode": "class RoomsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False  # Track whether we're in \"edit\" mode\n        self.current_room_id = None  # Track room being edited\n        # Initialize the controller with a reference to self\n        self.controller = RoomController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)",
         "detail": "app.room.room_view",
         "documentation": {}
     },
@@ -322,7 +337,7 @@
         "kind": 6,
         "importPath": "app.user.profile_view",
         "description": "app.user.profile_view",
-        "peekOfCode": "class ProfileView:\n    def __init__(self, root, switch_to_dashboard):\n        self.root = root\n        self.switch_to_dashboard = switch_to_dashboard\n        self.root.title(\"Profile\")\n        self.root.geometry(\"400x300\")\n        # Profile form for updating details\n        tk.Label(root, text=\"Update Profile\", font=(\"Helvetica\", 18)).pack(pady=20)\n        tk.Label(root, text=\"Name\", font=(\"Helvetica\", 12)).pack(anchor='w', padx=20)\n        self.name_entry = tk.Entry(root, font=(\"Helvetica\", 12))",
+        "peekOfCode": "class ProfileView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False  # Track whether we're in \"edit\" mode\n        self.current_room_id = None  # Track room being edited\n        # Initialize the controller with a reference to self\n        self.controller = RoomController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)",
         "detail": "app.user.profile_view",
         "documentation": {}
     },
@@ -367,7 +382,7 @@
         "kind": 6,
         "importPath": "app.database",
         "description": "app.database",
-        "peekOfCode": "class Database:\n  def __init__(self):\n    self.connection = None\n  def connect(self):\n    try:\n      self.connection = pymysql.connect(\n        host=\"localhost\",\n        user=\"root\",\n        password=\"\",\n        database=\"hotel_room_management\",",
+        "peekOfCode": "class Database:\n  @staticmethod\n  def connect():\n    try:\n      connection = pymysql.connect(\n        host=\"localhost\",\n        user=\"root\",\n        password=\"\",\n        database=\"hotel_room_management\",\n        port=3306",
         "detail": "app.database",
         "documentation": {}
     },

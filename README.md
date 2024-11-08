@@ -36,15 +36,3 @@
 
 
 
-
-rewrite view/dashboard_view.py. build a clean, modern-looking dashboard with an default homepage. the homepage will show a welcome message. background will be secondary & all text will be primary.
-In the dashboard, you'll have a header & a sidebar.
-
-In the header, left end will be project title (get it from config.py in the root folder), right end will have a profile icon. header background color will be primary, text will have secondary color. give a border after header of secondary color.
-when we click on the title it'll return to the dashboard homepage. and by clicking the profile icon a dropdown will show where we'll have two options: profile & logout
-
-In the sidebar we'll have few options named: Rooms, Customers, Reservations & Billing. sidebar background color will be primary, text will have secondary color
-give an hover border in each option. add a little divider between the options. the divider color will be secondary color.
-
-each page for the options will have separate files in view folder. all pages background will be secondary & all text will be primary.
-

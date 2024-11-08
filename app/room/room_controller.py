@@ -6,7 +6,6 @@ class RoomController:
     def __init__(self, view):
         self.model = RoomModel()
         self.view = view
-        self.view.set_controller(self)  # Pass self to view to handle callbacks
 
     def add_room(self, room_no, room_type, price, status):
         self.model.create_room(room_no, room_type, price, status)

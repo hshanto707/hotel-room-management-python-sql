@@ -1,21 +1,19 @@
 import pymysql
 
 class Database:
-  def __init__(self):
-    self.connection = None
-
-  def connect(self):
+  @staticmethod
+  def connect():
     try:
-      self.connection = pymysql.connect(
+      connection = pymysql.connect(
         host="localhost",
         user="root",
         password="",
         database="hotel_room_management",
         port=3306
       )
-      if self.connection.open:
+      if connection.open:
         print("Database connection successful!")
-      return self.connection
+      return connection
     except pymysql.MySQLError as err:
       print(f"Database connection failed: {err}")
       return None

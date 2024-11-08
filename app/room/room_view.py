@@ -1,4 +1,4 @@
-# view/rooms_view.py
+# app/room/room_view.py
 
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -10,7 +10,9 @@ class RoomsView:
         self.secondary_color = secondary_color
         self.is_edit_mode = False  # Track whether we're in "edit" mode
         self.current_room_id = None  # Track room being edited
-        self.controller = RoomController()
+
+        # Initialize the controller with a reference to self
+        self.controller = RoomController(self)
 
         # Main Frame
         self.frame = tk.Frame(parent, bg=secondary_color)
@@ -30,12 +32,9 @@ class RoomsView:
         # Right Frame (70%) - Room List and Search
         self.data_frame = tk.Frame(self.frame, bg="white", padx=20, pady=20)
         self.data_frame.place(relx=0.35, relwidth=0.65, relheight=1)
+        
+        # Initialize data view but do not load data yet
         self.create_data_view()
-
-    def set_controller(self, controller):
-        """ Set the controller for this view and load initial data """
-        self.controller = controller
-        self.update_room_list(self.controller.get_all_rooms())
 
     def create_form(self):
         # Form Title
@@ -118,7 +117,7 @@ class RoomsView:
         )
         self.search_button.pack(side="left", padx=5)
 
-        # Room List Table
+        # Room List Table, including "actions" in columns
         self.room_list = ttk.Treeview(self.data_frame, columns=("roomNo", "type", "price", "status", "actions"), show="headings")
         self.room_list.heading("roomNo", text="Room No")
         self.room_list.heading("type", text="Type")
@@ -127,8 +126,12 @@ class RoomsView:
         self.room_list.heading("actions", text="Actions")
 
         # Set column widths and center-align
-        for col in ("roomNo", "type", "price", "status", "actions"):
+        for col in ("roomNo", "type", "price", "status"):
             self.room_list.column(col, anchor="center", width=100)
+        self.room_list.column("actions", anchor="center", width=150)  # Extra space for actions
+
+        # Bind single-click event for action handling
+        self.room_list.bind("<Button-1>", self.on_single_click)
 
         # Pack room list table
         self.room_list.pack(fill="both", expand=True, pady=10)
@@ -146,31 +149,47 @@ class RoomsView:
         for i in self.room_list.get_children():
             self.room_list.delete(i)
         
-        # Insert new data into room list with Edit and Delete buttons
+        # Insert new data into room list with action labels as text
         for room in rooms:
             room_id = room['Id']
-            self.room_list.insert("", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], ""))
-            btn_edit = tk.Button(self.room_list, text="Edit", command=lambda r=room: self.initiate_edit(r), cursor="hand2")
-            btn_delete = tk.Button(self.room_list, text="Delete", command=lambda r=room: self.delete_room(r), cursor="hand2")
-            self.room_list.set("", 'end', btn_edit, btn_delete)
+            self.room_list.insert("", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], "Edit | Delete"))
 
-    def initiate_edit(self, room):
-        response = messagebox.askyesno("Confirm Edit", "Are you sure you want to edit this room?")
-        if response:
-            self.current_room_id = room['Id']
-            self.is_edit_mode = True
-            self.add_button.config(text="Update Room")
-            self.cancel_button.pack(pady=10, fill="x", ipady=5)
-            self.room_no_entry.delete(0, tk.END)
-            self.room_no_entry.insert(0, room['roomNo'])
-            self.type_entry.delete(0, tk.END)
-            self.type_entry.insert(0, room['type'])
-            self.price_entry.delete(0, tk.END)
-            self.price_entry.insert(0, room['price'])
-            self.status_entry.delete(0, tk.END)
-            self.status_entry.insert(0, room['status'])
+    def on_single_click(self, event):
+        # Identify the row and column where the click occurred
+        item_id = self.room_list.identify_row(event.y)
+        column_id = self.room_list.identify_column(event.x)
 
-    def delete_room(self, room):
+        if item_id and column_id == '#5':  # '#5' corresponds to the "actions" column
+            room_data = self.room_list.item(item_id, "values")
+            room_id = room_data[0]  # Assuming room ID is in the first column
+            
+            # Get the x-coordinate within the actions column to determine if "Edit" or "Delete" was clicked
+            x_offset = event.x - self.room_list.bbox(item_id, column_id)[0]
+            
+            # Assuming "Edit" is on the left half and "Delete" on the right half of the actions cell
+            if x_offset < 75:  # Approximate midpoint of 150 width
+                self.initiate_edit(room_data)
+            else:
+                self.delete_room(room_data)
+
+    def initiate_edit(self, room_data):
+        self.current_room_id = room_data[0]
+        self.is_edit_mode = True
+        self.add_button.config(text="Update Room")
+        self.cancel_button.pack(pady=10, fill="x", ipady=5)
+
+        # Populate form fields
+        self.room_no_entry.delete(0, tk.END)
+        self.room_no_entry.insert(0, room_data[0])
+        self.type_entry.delete(0, tk.END)
+        self.type_entry.insert(0, room_data[1])
+        self.price_entry.delete(0, tk.END)
+        self.price_entry.insert(0, room_data[2])
+        self.status_entry.delete(0, tk.END)
+        self.status_entry.insert(0, room_data[3])
+
+    def delete_room(self, room_data):
         response = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this room?")
         if response:
-            self.controller.delete_room(room['Id'])
+            self.controller.delete_room(room_data[0])  # Delete by room ID
+            self.update_room_list(self.controller.get_all_rooms())
