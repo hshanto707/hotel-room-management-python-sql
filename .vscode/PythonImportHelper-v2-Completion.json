@@ -25,7 +25,7 @@
         "documentation": {}
     },
     {
-        "label": "font",
+        "label": "messagebox",
         "importPath": "tkinter",
         "description": "tkinter",
         "isExtraImport": true,
@@ -105,6 +105,15 @@
         "documentation": {}
     },
     {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
         "label": "AuthController",
         "importPath": "app.auth.auth_controller",
         "description": "app.auth.auth_controller",
@@ -118,6 +127,38 @@
         "description": "app.auth.auth_controller",
         "isExtraImport": true,
         "detail": "app.auth.auth_controller",
+        "documentation": {}
+    },
+    {
+        "label": "PRIMARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "SECONDARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "PRIMARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "SECONDARY_COLOR",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
         "documentation": {}
     },
     {
@@ -247,7 +288,7 @@
         "kind": 6,
         "importPath": "app.auth.auth_controller",
         "description": "app.auth.auth_controller",
-        "peekOfCode": "class AuthController:\n    def __init__(self):\n        self.user_model = UserModel()\n    def login(self, username, password):\n        return self.user_model.authenticate_user(username, password)\n    def register(self, name, username, password):\n        try:\n            self.user_model.register_user(name, username, password)\n            return True\n        except Exception as e:",
+        "peekOfCode": "class AuthController:\n    def __init__(self):\n        self.user_model = UserModel()\n    def login(self, email, password):\n        # Check if email is valid\n        if not re.match(r\"[^@]+@gmail\\.com$\", email):\n            raise ValueError(\"Invalid email. Must be a valid @gmail.com address\")\n        if len(password) < 8:\n            raise ValueError(\"Password must be at least 8 characters long\")\n        return self.user_model.authenticate_user(email, password)",
         "detail": "app.auth.auth_controller",
         "documentation": {}
     },
@@ -256,7 +297,7 @@
         "kind": 6,
         "importPath": "app.auth.login_view",
         "description": "app.auth.login_view",
-        "peekOfCode": "class LoginView:\n    def __init__(self, root, switch_to_registration, switch_to_dashboard):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_registration = switch_to_registration\n        self.switch_to_dashboard = switch_to_dashboard\n        self.root.title(\"Login\")\n        self.root.geometry(\"1000x600\")\n        # Main container frame for the split design\n        container = tk.Frame(root, bg=\"white\")",
+        "peekOfCode": "class LoginView:\n    def __init__(self, root, switch_to_registration, switch_to_dashboard):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_registration = switch_to_registration\n        self.switch_to_dashboard = switch_to_dashboard\n        self.root.title(\"Login\")\n        self.root.geometry(\"1400x768\")\n        # Main container frame for the split design\n        container = tk.Frame(root, bg=SECONDARY_COLOR)",
         "detail": "app.auth.login_view",
         "documentation": {}
     },
@@ -265,7 +306,7 @@
         "kind": 6,
         "importPath": "app.auth.registration_view",
         "description": "app.auth.registration_view",
-        "peekOfCode": "class RegistrationView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_login = switch_to_login\n        self.root.title(\"Registration\")\n        self.root.geometry(\"1000x600\")\n        # Main container frame for split design\n        container = tk.Frame(root, bg=\"white\")\n        container.pack(fill=\"both\", expand=True)",
+        "peekOfCode": "class RegistrationView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.auth_controller = AuthController()\n        self.switch_to_login = switch_to_login\n        self.root.title(\"Registration\")\n        self.root.geometry(\"1400x768\")\n        # Main container frame for split design\n        container = tk.Frame(root, bg=SECONDARY_COLOR)\n        container.pack(fill=\"both\", expand=True)",
         "detail": "app.auth.registration_view",
         "documentation": {}
     },
@@ -292,7 +333,7 @@
         "kind": 6,
         "importPath": "app.dashboard.dashboard_view",
         "description": "app.dashboard.dashboard_view",
-        "peekOfCode": "class DashboardView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.switch_to_login = switch_to_login\n        # Configure main window\n        self.root.title(APP_NAME)\n        self.root.geometry(\"1024x768\")\n        # Main Frame\n        main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)\n        main_frame.pack(fill=\"both\", expand=True)",
+        "peekOfCode": "class DashboardView:\n    def __init__(self, root, switch_to_login):\n        self.root = root\n        self.switch_to_login = switch_to_login\n        # Configure main window\n        self.root.title(APP_NAME)\n        self.root.geometry(\"1400x768\")\n        # Main Frame\n        main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)\n        main_frame.pack(fill=\"both\", expand=True)",
         "detail": "app.dashboard.dashboard_view",
         "documentation": {}
     },
@@ -346,7 +387,7 @@
         "kind": 6,
         "importPath": "app.user.user_model",
         "description": "app.user.user_model",
-        "peekOfCode": "class UserModel:\n    def __init__(self):\n        self.db = Database()\n    def register_user(self, name, username, password):\n        print(name, username, password)\n        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())\n        print(\"password hashed: \", hashed_password)\n        connection = self.db.connect()\n        print(\"connection built\")\n        cursor = connection.cursor()",
+        "peekOfCode": "class UserModel:\n    def __init__(self):\n        self.db = Database()\n    def register_user(self, name, email, password):\n        connection = self.db.connect()\n        cursor = connection.cursor()\n        # Check if email already exists\n        check_query = \"SELECT id FROM users WHERE email = %s\"\n        cursor.execute(check_query, (email,))\n        if cursor.fetchone() is not None:",
         "detail": "app.user.user_model",
         "documentation": {}
     },
@@ -391,7 +432,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Main Code\n        # self.show_login()\n        # Debug Purpose start\n        self.show_dashboard()\n        # Debug Purpose end\n    def show_login(self):\n        # Clear the root frame for new view",
+        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Main Code\n        self.show_login()\n        # Debug Purpose start\n        # self.show_dashboard()\n        # Debug Purpose end\n    def show_login(self):\n        # Clear the root frame for new view",
         "detail": "main",
         "documentation": {}
     }

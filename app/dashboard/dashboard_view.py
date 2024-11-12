@@ -16,7 +16,7 @@ class DashboardView:
 
         # Configure main window
         self.root.title(APP_NAME)
-        self.root.geometry("1024x768")
+        self.root.geometry("1400x768")
 
         # Main Frame
         main_frame = tk.Frame(self.root, bg=SECONDARY_COLOR)

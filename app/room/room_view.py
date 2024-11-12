@@ -40,25 +40,36 @@ class RoomsView:
         # Form Title
         tk.Label(self.form_frame, text="Add Room", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
 
-        # Room Number
+        # Room Number with validation for 3-digit numbers
         tk.Label(self.form_frame, text="Room No:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.room_no_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
         self.room_no_entry.pack(fill="x", pady=10, ipady=5)
+        self.room_no_entry.bind("<FocusOut>", self.validate_room_no)  # Bind validation on focus out
 
-        # Room Type
+        # Room Type as radio buttons
         tk.Label(self.form_frame, text="Type:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.type_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
-        self.type_entry.pack(fill="x", pady=10, ipady=5)
+        self.type_entry = tk.StringVar(value="Single")  # Default selection and assignment to type_entry
+        types = ["Single", "Double", "Suite"]
+        for room_type in types:
+            tk.Radiobutton(
+                self.form_frame, text=room_type, variable=self.type_entry, value=room_type,
+                bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12), anchor="w"
+            ).pack(anchor="w")
 
         # Room Price
         tk.Label(self.form_frame, text="Price:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.price_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
         self.price_entry.pack(fill="x", pady=10, ipady=5)
 
-        # Room Status
+        # Room Status as radio buttons
         tk.Label(self.form_frame, text="Status:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.status_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
-        self.status_entry.pack(fill="x", pady=10, ipady=5)
+        self.status_entry = tk.StringVar(value="Available")  # Default selection and assignment to status_entry
+        statuses = ["Available", "Occupied", "Maintenance"]
+        for status in statuses:
+            tk.Radiobutton(
+                self.form_frame, text=status, variable=self.status_entry, value=status,
+                bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12), anchor="w"
+            ).pack(anchor="w")
 
         # Action Buttons
         self.add_button = tk.Button(
@@ -75,19 +86,52 @@ class RoomsView:
         self.cancel_button.pack(pady=10, fill="x", ipady=5)
         self.cancel_button.pack_forget()
 
+    def validate_room_no(self, event):
+        """Validates that the room number is exactly three digits."""
+        room_no = self.room_no_entry.get()
+        if not room_no.isdigit() or len(room_no) != 3:
+            messagebox.showerror("Invalid Room Number", "Room number must be exactly three digits.")
+            self.room_no_entry.focus_set()  # Set focus back to room number entry
+
+
     def handle_add_or_update(self):
         room_no = self.room_no_entry.get()
         room_type = self.type_entry.get()
         price = self.price_entry.get()
         status = self.status_entry.get()
 
-        if self.is_edit_mode:
-            # Update room
-            self.controller.update_room(self.current_room_id, room_no, room_type, price, status)
+        # Validate room number (must be exactly 3 digits) and price (must be > 0)
+        if not room_no.isdigit() or len(room_no) != 3:
+            messagebox.showerror("Invalid Room Number", "Room number must be exactly three digits.")
+            self.room_no_entry.focus_set()
+            return
+
+        try:
+            price_value = float(price)
+            if price_value <= 0:
+                messagebox.showerror("Invalid Price", "Price must be a positive number.")
+                self.price_entry.focus_set()
+                return
+        except ValueError:
+            messagebox.showerror("Invalid Price", "Price must be a valid number.")
+            self.price_entry.focus_set()
+            return
+
+        # Try to add or update room and handle any errors that occur
+        try:
+            if self.is_edit_mode:
+                # Update room
+                self.controller.update_room(self.current_room_id, room_no, room_type, price, status)
+            else:
+                # Add new room
+                self.controller.add_room(room_no, room_type, price, status)
+            
+            # Reset form after successful add/update
             self.reset_form()
-        else:
-            # Add new room
-            self.controller.add_room(room_no, room_type, price, status)
+
+        except ValueError as e:
+            # Show error message if there’s an issue, like a duplicate room number
+            messagebox.showerror("Error", str(e))
 
     def reset_form(self):
         """ Resets the form to add mode and clears entries """
@@ -136,6 +180,10 @@ class RoomsView:
         # Pack room list table
         self.room_list.pack(fill="both", expand=True, pady=10)
 
+        # Apply custom styles for alternating row colors and hover effect
+        self.room_list.tag_configure('evenrow', background=self.secondary_color)
+        self.room_list.tag_configure('oddrow', background="white")
+
         # Load all data on page load
         self.update_room_list(self.controller.get_all_rooms())
 
@@ -149,10 +197,13 @@ class RoomsView:
         for i in self.room_list.get_children():
             self.room_list.delete(i)
         
-        # Insert new data into room list with action labels as text
-        for room in rooms:
-            room_id = room['Id']
-            self.room_list.insert("", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], "Edit | Delete"))
+        # Insert new data into room list with alternating row colors
+        for index, room in enumerate(rooms):
+            tag = 'evenrow' if index % 2 == 0 else 'oddrow'
+            self.room_list.insert(
+                "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], "Edit | Delete"), tags=(tag,)
+            )
+
 
     def on_single_click(self, event):
         # Identify the row and column where the click occurred

@@ -8,11 +8,11 @@ class App:
         self.root = root
         # Main Code
         
-        # self.show_login()
+        self.show_login()
         
         # Debug Purpose start
         
-        self.show_dashboard()
+        # self.show_dashboard()
         
         # Debug Purpose end
 
