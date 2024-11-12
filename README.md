@@ -25,6 +25,9 @@
     - User can update/modify the bill
     - User can create a bill by selecting an customer. Note: need brainstorming
 
+# Tools & Languages
+  - Python 3.13.0
+  - MySQL
 
 # How to make this project better
   - Make it responsive
