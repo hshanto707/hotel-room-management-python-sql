@@ -1,5 +1,4 @@
 # Room Page
-    -> Make the table color nice
     -> Edit & delete button should have pointer cursor
 
 
@@ -13,16 +12,14 @@
     -> Logged in user data should be stored. Use the user name in the dashboard header
 
 
+# Sign In Page
+    -> Email should be valid (accept all type of valid mail [Check digiprodpass codebase])
+    -> If the email doesn't found or the password doesn't match, an error message should be shown: "Email and password doesn't match"
+
+
 # Sign UP Page
-    -> Update color, fields & button design (later, after finishing the whole project)
-    -> Fields
-        -> Name
-        -> Email
-        -> Username
-        -> Password
-        -> Rewrite Password (if it's not much hassle)
-    -> Add a validation for the name, username, email & password
-        -> name cannot be less than 4 char
-        -> username should be unique
-        -> email should be valid (check @gmail.com)
-        -> password should be at least 8 char long
+    -> email should be valid (accept all type of valid mail [Check digiprodpass codebase])
+
+
+# Customers Page
+    -> email should be valid (accept all type of valid mail [Check digiprodpass codebase])

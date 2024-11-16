@@ -136,13 +136,17 @@ class RoomsView:
     def reset_form(self):
         """ Resets the form to add mode and clears entries """
         self.room_no_entry.delete(0, tk.END)
-        self.type_entry.delete(0, tk.END)
         self.price_entry.delete(0, tk.END)
-        self.status_entry.delete(0, tk.END)
+
+        # Reset the StringVar values for type and status
+        self.type_entry.set("Single")  # Reset to default value
+        self.status_entry.set("Available")  # Reset to default value
+
         self.add_button.config(text="Add Room")
         self.cancel_button.pack_forget()
         self.is_edit_mode = False
         self.current_room_id = None
+
 
     def create_data_view(self):
         # Search Bar Frame
@@ -232,12 +236,16 @@ class RoomsView:
         # Populate form fields
         self.room_no_entry.delete(0, tk.END)
         self.room_no_entry.insert(0, room_data[0])
-        self.type_entry.delete(0, tk.END)
-        self.type_entry.insert(0, room_data[1])
+
+        # Set the value for type_entry (using set since it's a StringVar)
+        self.type_entry.set(room_data[1])
+
         self.price_entry.delete(0, tk.END)
         self.price_entry.insert(0, room_data[2])
-        self.status_entry.delete(0, tk.END)
-        self.status_entry.insert(0, room_data[3])
+
+        # Set the value for status_entry (using set since it's a StringVar)
+        self.status_entry.set(room_data[3])
+
 
     def delete_room(self, room_data):
         response = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this room?")

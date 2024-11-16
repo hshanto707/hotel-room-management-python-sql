@@ -13,9 +13,18 @@ class RoomModel:
         self.cursor = self.conn.cursor(DictCursor)
 
     def create_room(self, room_no, room_type, price, status, created_by=1):
+        # Check for duplicate room number
+        check_query = "SELECT COUNT(*) as count FROM rooms WHERE roomNo = %s"
+        self.cursor.execute(check_query, (room_no,))
+        result = self.cursor.fetchone()
+        if result['count'] > 0:
+            raise ValueError(f"Room number {room_no} already exists.")
+
+        # Insert room if no duplicate
         query = "INSERT INTO rooms (roomNo, type, price, status, createdBy) VALUES (%s, %s, %s, %s, %s)"
         self.cursor.execute(query, (room_no, room_type, price, status, created_by))
         self.conn.commit()
+
 
     def fetch_all_rooms(self):
         query = "SELECT * FROM rooms"
@@ -32,13 +41,13 @@ class RoomModel:
         return self.cursor.fetchall()
 
     def update_room(self, room_id, room_no, room_type, price, status):
-        query = "UPDATE rooms SET roomNo = %s, type = %s, price = %s, status = %s WHERE Id = %s"
-        self.cursor.execute(query, (room_no, room_type, price, status, room_id))
+        query = "UPDATE rooms SET roomNo = %s, type = %s, price = %s, status = %s WHERE roomNo = %s"
+        self.cursor.execute(query, (room_no, room_type, price, status, room_no))
         self.conn.commit()
 
     def delete_room(self, room_id):
-        query = "DELETE FROM rooms WHERE Id = %s"
-        self.cursor.execute(query, (room_id,))
+        query = "DELETE FROM rooms WHERE roomNo = %s"
+        self.cursor.execute(query, (room_id))
         self.conn.commit()
 
     def __del__(self):

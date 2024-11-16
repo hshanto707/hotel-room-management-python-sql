@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, font
 from app.config import PRIMARY_COLOR, SECONDARY_COLOR, APP_NAME
 from ..room.room_view import RoomsView
-from ..customer.customers_view import CustomersView
+from ..customer.customer_view import CustomersView
 from ..reservation.reservations_view import ReservationsView
 from ..billing.billing_view import BillingView
 from app.user.profile_view import ProfileView

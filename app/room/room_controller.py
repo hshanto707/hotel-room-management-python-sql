@@ -1,6 +1,7 @@
 # controllers/room_controller.py
 
 from app.room.room_model import RoomModel
+from tkinter import messagebox
 
 class RoomController:
     def __init__(self, view):
@@ -8,8 +9,12 @@ class RoomController:
         self.view = view
 
     def add_room(self, room_no, room_type, price, status):
-        self.model.create_room(room_no, room_type, price, status)
-        self.refresh_room_list()
+        try:
+            self.model.create_room(room_no, room_type, price, status)
+            self.refresh_room_list()
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
+
 
     def get_all_rooms(self):
         return self.model.fetch_all_rooms()
@@ -18,6 +23,7 @@ class RoomController:
         return self.model.search_rooms(keyword)
 
     def update_room(self, room_id, room_no, room_type, price, status):
+        print(room_id, room_no, room_type, price, status)
         self.model.update_room(room_id, room_no, room_type, price, status)
         self.refresh_room_list()
 
