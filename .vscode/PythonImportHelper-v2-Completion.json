@@ -422,10 +422,10 @@
     {
         "label": "ReservationsView",
         "kind": 6,
-        "importPath": "app.reservation.reservations_view",
-        "description": "app.reservation.reservations_view",
-        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Reservation Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
-        "detail": "app.reservation.reservations_view",
+        "importPath": "app.reservation.reservation_view",
+        "description": "app.reservation.reservation_view",
+        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Billing Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "detail": "app.reservation.reservation_view",
         "documentation": {}
     },
     {
