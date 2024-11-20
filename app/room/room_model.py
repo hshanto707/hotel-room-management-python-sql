@@ -12,7 +12,7 @@ class RoomModel:
         # Use DictCursor to get results as dictionaries
         self.cursor = self.conn.cursor(DictCursor)
 
-    def create_room(self, room_no, room_type, price, status, created_by=1):
+    def create_room(self, room_no, room_type, price, status, airConditioning, created_by=1):
         # Check for duplicate room number
         check_query = "SELECT COUNT(*) as count FROM rooms WHERE roomNo = %s"
         self.cursor.execute(check_query, (room_no,))
@@ -21,8 +21,8 @@ class RoomModel:
             raise ValueError(f"Room number {room_no} already exists.")
 
         # Insert room if no duplicate
-        query = "INSERT INTO rooms (roomNo, type, price, status, createdBy) VALUES (%s, %s, %s, %s, %s)"
-        self.cursor.execute(query, (room_no, room_type, price, status, created_by))
+        query = "INSERT INTO rooms (roomNo, type, price, status, airConditioning, createdBy) VALUES (%s, %s, %s, %s, %s)"
+        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, created_by))
         self.conn.commit()
 
 
@@ -34,15 +34,15 @@ class RoomModel:
     def search_rooms(self, keyword):
         query = """
         SELECT * FROM rooms
-        WHERE roomNo LIKE %s OR type LIKE %s OR status LIKE %s
+        WHERE roomNo LIKE %s OR type LIKE %s OR status LIKE %s OR airConditioning LIKE %s
         """
         keyword = f"%{keyword}%"
-        self.cursor.execute(query, (keyword, keyword, keyword))
+        self.cursor.execute(query, (keyword, keyword, keyword, keyword))
         return self.cursor.fetchall()
 
-    def update_room(self, room_id, room_no, room_type, price, status):
-        query = "UPDATE rooms SET roomNo = %s, type = %s, price = %s, status = %s WHERE roomNo = %s"
-        self.cursor.execute(query, (room_no, room_type, price, status, room_no))
+    def update_room(self, room_id, room_no, room_type, price, status, airConditioning):
+        query = "UPDATE rooms SET roomNo = %s, type = %s, price = %s, status = %s, airConditioning = %s WHERE roomNo = %s"
+        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, room_no))
         self.conn.commit()
 
     def delete_room(self, room_id):

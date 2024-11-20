@@ -8,9 +8,9 @@ class RoomController:
         self.model = RoomModel()
         self.view = view
 
-    def add_room(self, room_no, room_type, price, status):
+    def add_room(self, room_no, room_type, price, status, airConditioning):
         try:
-            self.model.create_room(room_no, room_type, price, status)
+            self.model.create_room(room_no, room_type, price, status, airConditioning)
             self.refresh_room_list()
         except ValueError as e:
             messagebox.showerror("Error", str(e))
@@ -22,9 +22,9 @@ class RoomController:
     def search_rooms(self, keyword):
         return self.model.search_rooms(keyword)
 
-    def update_room(self, room_id, room_no, room_type, price, status):
-        print(room_id, room_no, room_type, price, status)
-        self.model.update_room(room_id, room_no, room_type, price, status)
+    def update_room(self, room_id, room_no, room_type, price, status, airConditioning):
+        print(room_id, room_no, room_type, price, status, airConditioning)
+        self.model.update_room(room_id, room_no, room_type, price, status, airConditioning)
         self.refresh_room_list()
 
     def delete_room(self, room_id):

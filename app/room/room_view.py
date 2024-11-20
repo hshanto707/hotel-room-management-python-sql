@@ -61,6 +61,16 @@ class RoomsView:
         self.price_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
         self.price_entry.pack(fill="x", pady=10, ipady=5)
 
+        # Room air conditioning as radio buttons
+        tk.Label(self.form_frame, text="Air Conditioning:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
+        self.airConditioning_entry = tk.StringVar(value="Available")  # Default selection and assignment to airConditioning_entry
+        conditions = ["AC", "Non AC"]
+        for condition in conditions:
+            tk.Radiobutton(
+                self.form_frame, text=condition, variable=self.airConditioning_entry, value=condition,
+                bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12), anchor="w"
+            ).pack(anchor="w")
+
         # Room Status as radio buttons
         tk.Label(self.form_frame, text="Status:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.status_entry = tk.StringVar(value="Available")  # Default selection and assignment to status_entry
@@ -99,6 +109,7 @@ class RoomsView:
         room_type = self.type_entry.get()
         price = self.price_entry.get()
         status = self.status_entry.get()
+        airConditioning = self.airConditioning_entry.get()
 
         # Validate room number (must be exactly 3 digits) and price (must be > 0)
         if not room_no.isdigit() or len(room_no) != 3:
@@ -121,10 +132,10 @@ class RoomsView:
         try:
             if self.is_edit_mode:
                 # Update room
-                self.controller.update_room(self.current_room_id, room_no, room_type, price, status)
+                self.controller.update_room(self.current_room_id, room_no, room_type, price, status, airConditioning)
             else:
                 # Add new room
-                self.controller.add_room(room_no, room_type, price, status)
+                self.controller.add_room(room_no, room_type, price, status, airConditioning)
             
             # Reset form after successful add/update
             self.reset_form()
@@ -166,15 +177,16 @@ class RoomsView:
         self.search_button.pack(side="left", padx=5)
 
         # Room List Table, including "actions" in columns
-        self.room_list = ttk.Treeview(self.data_frame, columns=("roomNo", "type", "price", "status", "actions"), show="headings")
+        self.room_list = ttk.Treeview(self.data_frame, columns=("roomNo", "type", "price", "status", "air conditioning", "actions"), show="headings")
         self.room_list.heading("roomNo", text="Room No")
         self.room_list.heading("type", text="Type")
         self.room_list.heading("price", text="Price")
         self.room_list.heading("status", text="Status")
+        self.room_list.heading("airConditioning", text="Air Conditioning")
         self.room_list.heading("actions", text="Actions")
 
         # Set column widths and center-align
-        for col in ("roomNo", "type", "price", "status"):
+        for col in ("roomNo", "type", "price", "status", "airConditioning"):
             self.room_list.column(col, anchor="center", width=100)
         self.room_list.column("actions", anchor="center", width=150)  # Extra space for actions
 
@@ -205,7 +217,7 @@ class RoomsView:
         for index, room in enumerate(rooms):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
             self.room_list.insert(
-                "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], "Edit | Delete"), tags=(tag,)
+                "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], room['airConditioning'], "Edit | Delete"), tags=(tag,)
             )
 
 
@@ -246,6 +258,8 @@ class RoomsView:
         # Set the value for status_entry (using set since it's a StringVar)
         self.status_entry.set(room_data[3])
 
+        # Set the value for airConditioning_entry (using set since it's a StringVar)
+        self.airConditioning_entry.set(room_data[4])
 
     def delete_room(self, room_data):
         response = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this room?")
