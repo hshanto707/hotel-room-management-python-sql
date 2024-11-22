@@ -433,7 +433,7 @@
         "kind": 6,
         "importPath": "app.room.room_controller",
         "description": "app.room.room_controller",
-        "peekOfCode": "class RoomController:\n    def __init__(self, view):\n        self.model = RoomModel()\n        self.view = view\n    def add_room(self, room_no, room_type, price, status):\n        try:\n            self.model.create_room(room_no, room_type, price, status)\n            self.refresh_room_list()\n        except ValueError as e:\n            messagebox.showerror(\"Error\", str(e))",
+        "peekOfCode": "class RoomController:\n    def __init__(self, view):\n        self.model = RoomModel()\n        self.view = view\n    def add_room(self, room_no, room_type, price, status, airConditioning):\n        try:\n            self.model.create_room(room_no, room_type, price, status, airConditioning)\n            self.refresh_room_list()\n        except ValueError as e:\n            messagebox.showerror(\"Error\", str(e))",
         "detail": "app.room.room_controller",
         "documentation": {}
     },
@@ -442,7 +442,7 @@
         "kind": 6,
         "importPath": "app.room.room_model",
         "description": "app.room.room_model",
-        "peekOfCode": "class RoomModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        # Use DictCursor to get results as dictionaries\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_room(self, room_no, room_type, price, status, created_by=1):\n        # Check for duplicate room number\n        check_query = \"SELECT COUNT(*) as count FROM rooms WHERE roomNo = %s\"",
+        "peekOfCode": "class RoomModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        # Use DictCursor to get results as dictionaries\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_room(self, room_no, room_type, price, status, airConditioning, created_by=1):\n        # Check for duplicate room number\n        check_query = \"SELECT COUNT(*) as count FROM rooms WHERE roomNo = %s\"",
         "detail": "app.room.room_model",
         "documentation": {}
     },

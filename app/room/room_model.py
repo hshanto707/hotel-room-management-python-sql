@@ -21,7 +21,10 @@ class RoomModel:
             raise ValueError(f"Room number {room_no} already exists.")
 
         # Insert room if no duplicate
-        query = "INSERT INTO rooms (roomNo, type, price, status, airConditioning, createdBy) VALUES (%s, %s, %s, %s, %s)"
+        query = """
+        INSERT INTO rooms (roomNo, type, price, status, airConditioning, createdBy)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
         self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, created_by))
         self.conn.commit()
 
@@ -41,14 +44,20 @@ class RoomModel:
         return self.cursor.fetchall()
 
     def update_room(self, room_id, room_no, room_type, price, status, airConditioning):
-        query = "UPDATE rooms SET roomNo = %s, type = %s, price = %s, status = %s, airConditioning = %s WHERE roomNo = %s"
-        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, room_no))
+        query = """
+        UPDATE rooms
+        SET roomNo = %s, type = %s, price = %s, status = %s, airConditioning = %s
+        WHERE roomNo = %s
+        """
+        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, room_id))
         self.conn.commit()
+
 
     def delete_room(self, room_id):
         query = "DELETE FROM rooms WHERE roomNo = %s"
-        self.cursor.execute(query, (room_id))
+        self.cursor.execute(query, (room_id,))  # Ensure this is a tuple
         self.conn.commit()
+
 
     def __del__(self):
         if hasattr(self, 'cursor') and self.cursor:

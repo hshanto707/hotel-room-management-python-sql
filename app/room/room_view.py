@@ -20,7 +20,7 @@ class RoomsView:
 
         # Title
         tk.Label(
-            self.frame, text="Room Management Section", bg=secondary_color, 
+            self.frame, text="Room Management Section", bg=secondary_color,
             fg=primary_color, font=("Helvetica", 18)
         ).pack(pady=10)
 
@@ -32,7 +32,7 @@ class RoomsView:
         # Right Frame (70%) - Room List and Search
         self.data_frame = tk.Frame(self.frame, bg="white", padx=20, pady=20)
         self.data_frame.place(relx=0.35, relwidth=0.65, relheight=1)
-        
+
         # Initialize data view but do not load data yet
         self.create_data_view()
 
@@ -63,7 +63,7 @@ class RoomsView:
 
         # Room air conditioning as radio buttons
         tk.Label(self.form_frame, text="Air Conditioning:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.airConditioning_entry = tk.StringVar(value="Available")  # Default selection and assignment to airConditioning_entry
+        self.airConditioning_entry = tk.StringVar(value="AC")  # Default value set to "AC"
         conditions = ["AC", "Non AC"]
         for condition in conditions:
             tk.Radiobutton(
@@ -83,7 +83,7 @@ class RoomsView:
 
         # Action Buttons
         self.add_button = tk.Button(
-            self.form_frame, text="Add Room", font=("Helvetica", 14, "bold"), 
+            self.form_frame, text="Add Room", font=("Helvetica", 14, "bold"),
             bg=self.primary_color, fg="white", relief="flat", command=self.handle_add_or_update, cursor="hand2"
         )
         self.add_button.pack(pady=20, fill="x", ipady=5)
@@ -102,7 +102,6 @@ class RoomsView:
         if not room_no.isdigit() or len(room_no) != 3:
             messagebox.showerror("Invalid Room Number", "Room number must be exactly three digits.")
             self.room_no_entry.focus_set()  # Set focus back to room number entry
-
 
     def handle_add_or_update(self):
         room_no = self.room_no_entry.get()
@@ -136,7 +135,7 @@ class RoomsView:
             else:
                 # Add new room
                 self.controller.add_room(room_no, room_type, price, status, airConditioning)
-            
+
             # Reset form after successful add/update
             self.reset_form()
 
@@ -145,39 +144,39 @@ class RoomsView:
             messagebox.showerror("Error", str(e))
 
     def reset_form(self):
-        """ Resets the form to add mode and clears entries """
+        """Resets the form to add mode and clears entries"""
         self.room_no_entry.delete(0, tk.END)
         self.price_entry.delete(0, tk.END)
 
         # Reset the StringVar values for type and status
         self.type_entry.set("Single")  # Reset to default value
         self.status_entry.set("Available")  # Reset to default value
+        self.airConditioning_entry.set("AC")  # Reset to default value
 
         self.add_button.config(text="Add Room")
         self.cancel_button.pack_forget()
         self.is_edit_mode = False
         self.current_room_id = None
 
-
     def create_data_view(self):
         # Search Bar Frame
         search_frame = tk.Frame(self.data_frame, bg="white")
         search_frame.pack(fill="x", pady=10)
-        
+
         # Search Label and Entry
         tk.Label(search_frame, text="Search:", bg="white", font=("Helvetica", 12)).pack(side="left")
         self.search_entry = tk.Entry(search_frame, font=("Helvetica", 12), bd=2, relief="solid")
         self.search_entry.pack(side="left", fill="x", expand=True, padx=5, ipady=3)
-        
+
         # Search Button
         self.search_button = tk.Button(
-            search_frame, text="Search", command=self.handle_search, 
+            search_frame, text="Search", command=self.handle_search,
             bg=self.primary_color, fg="white", font=("Helvetica", 12, "bold"), cursor="hand2"
         )
         self.search_button.pack(side="left", padx=5)
 
-        # Room List Table, including "actions" in columns
-        self.room_list = ttk.Treeview(self.data_frame, columns=("roomNo", "type", "price", "status", "air conditioning", "actions"), show="headings")
+        # Room List Table
+        self.room_list = ttk.Treeview(self.data_frame, columns=("roomNo", "type", "price", "status", "airConditioning", "actions"), show="headings")
         self.room_list.heading("roomNo", text="Room No")
         self.room_list.heading("type", text="Type")
         self.room_list.heading("price", text="Price")
@@ -188,7 +187,7 @@ class RoomsView:
         # Set column widths and center-align
         for col in ("roomNo", "type", "price", "status", "airConditioning"):
             self.room_list.column(col, anchor="center", width=100)
-        self.room_list.column("actions", anchor="center", width=150)  # Extra space for actions
+        self.room_list.column("actions", anchor="center", width=150)
 
         # Bind single-click event for action handling
         self.room_list.bind("<Button-1>", self.on_single_click)
@@ -196,7 +195,7 @@ class RoomsView:
         # Pack room list table
         self.room_list.pack(fill="both", expand=True, pady=10)
 
-        # Apply custom styles for alternating row colors and hover effect
+        # Apply custom styles for alternating row colors
         self.room_list.tag_configure('evenrow', background=self.secondary_color)
         self.room_list.tag_configure('oddrow', background="white")
 
@@ -212,7 +211,7 @@ class RoomsView:
         # Clear current data in room list
         for i in self.room_list.get_children():
             self.room_list.delete(i)
-        
+
         # Insert new data into room list with alternating row colors
         for index, room in enumerate(rooms):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
@@ -220,19 +219,18 @@ class RoomsView:
                 "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], room['airConditioning'], "Edit | Delete"), tags=(tag,)
             )
 
-
     def on_single_click(self, event):
         # Identify the row and column where the click occurred
         item_id = self.room_list.identify_row(event.y)
         column_id = self.room_list.identify_column(event.x)
 
-        if item_id and column_id == '#5':  # '#5' corresponds to the "actions" column
+        if item_id and column_id == '#6':  # '#6' corresponds to the "actions" column
             room_data = self.room_list.item(item_id, "values")
             room_id = room_data[0]  # Assuming room ID is in the first column
-            
+
             # Get the x-coordinate within the actions column to determine if "Edit" or "Delete" was clicked
             x_offset = event.x - self.room_list.bbox(item_id, column_id)[0]
-            
+
             # Assuming "Edit" is on the left half and "Delete" on the right half of the actions cell
             if x_offset < 75:  # Approximate midpoint of 150 width
                 self.initiate_edit(room_data)
