@@ -1,10 +1,10 @@
 [
     {
-        "label": "UserModel",
-        "importPath": "app.user.user_model",
-        "description": "app.user.user_model",
+        "label": "AuthModel",
+        "importPath": "app.auth.auth_model",
+        "description": "app.auth.auth_model",
         "isExtraImport": true,
-        "detail": "app.user.user_model",
+        "detail": "app.auth.auth_model",
         "documentation": {}
     },
     {
@@ -113,7 +113,7 @@
         "documentation": {}
     },
     {
-        "label": "ttk",
+        "label": "messagebox",
         "importPath": "tkinter",
         "description": "tkinter",
         "isExtraImport": true,
@@ -137,12 +137,101 @@
         "documentation": {}
     },
     {
+        "label": "save_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "clear_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "get_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "get_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "clear_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "save_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
         "label": "re",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "re",
         "description": "re",
         "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "bcrypt",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "bcrypt",
+        "description": "bcrypt",
+        "detail": "bcrypt",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
         "documentation": {}
     },
     {
@@ -251,30 +340,6 @@
         "documentation": {}
     },
     {
-        "label": "Database",
-        "importPath": "app.database",
-        "description": "app.database",
-        "isExtraImport": true,
-        "detail": "app.database",
-        "documentation": {}
-    },
-    {
-        "label": "Database",
-        "importPath": "app.database",
-        "description": "app.database",
-        "isExtraImport": true,
-        "detail": "app.database",
-        "documentation": {}
-    },
-    {
-        "label": "Database",
-        "importPath": "app.database",
-        "description": "app.database",
-        "isExtraImport": true,
-        "detail": "app.database",
-        "documentation": {}
-    },
-    {
         "label": "CustomerController",
         "importPath": "app.customer.customer_controller",
         "description": "app.customer.customer_controller",
@@ -284,10 +349,10 @@
     },
     {
         "label": "ProfileView",
-        "importPath": "app.user.profile_view",
-        "description": "app.user.profile_view",
+        "importPath": "app.user.user_view",
+        "description": "app.user.user_view",
         "isExtraImport": true,
-        "detail": "app.user.profile_view",
+        "detail": "app.user.user_view",
         "documentation": {}
     },
     {
@@ -307,20 +372,11 @@
         "documentation": {}
     },
     {
-        "label": "RoomController",
-        "importPath": "app.room.room_controller",
-        "description": "app.room.room_controller",
+        "label": "UserModel",
+        "importPath": "app.user.user_model",
+        "description": "app.user.user_model",
         "isExtraImport": true,
-        "detail": "app.room.room_controller",
-        "documentation": {}
-    },
-    {
-        "label": "bcrypt",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "bcrypt",
-        "description": "bcrypt",
-        "detail": "bcrypt",
+        "detail": "app.user.user_model",
         "documentation": {}
     },
     {
@@ -352,8 +408,17 @@
         "kind": 6,
         "importPath": "app.auth.auth_controller",
         "description": "app.auth.auth_controller",
-        "peekOfCode": "class AuthController:\n    def __init__(self):\n        self.user_model = UserModel()\n    def login(self, email, password):\n        # Check if email is valid\n        if not re.match(r\"[^@]+@gmail\\.com$\", email):\n            raise ValueError(\"Invalid email. Must be a valid @gmail.com address\")\n        if len(password) < 8:\n            raise ValueError(\"Password must be at least 8 characters long\")\n        return self.user_model.authenticate_user(email, password)",
+        "peekOfCode": "class AuthController:\n    def __init__(self):\n        self.model = AuthModel()\n    def login(self, email, password):\n        # Check if email is valid\n        if not re.match(r\"[^@]+@gmail\\.com$\", email):\n            raise ValueError(\"Invalid email. Must be a valid @gmail.com address\")\n        if len(password) < 8:\n            raise ValueError(\"Password must be at least 8 characters long\")\n        user_data = self.model.authenticate_user(email, password)",
         "detail": "app.auth.auth_controller",
+        "documentation": {}
+    },
+    {
+        "label": "AuthModel",
+        "kind": 6,
+        "importPath": "app.auth.auth_model",
+        "description": "app.auth.auth_model",
+        "peekOfCode": "class AuthModel:\n    def __init__(self):\n        self.db = Database()\n    def register_user(self, name, email, password):\n        connection = self.db.connect()\n        cursor = connection.cursor()\n        # Check if email already exists\n        check_query = \"SELECT id FROM users WHERE email = %s\"\n        cursor.execute(check_query, (email,))\n        if cursor.fetchone() is not None:",
+        "detail": "app.auth.auth_model",
         "documentation": {}
     },
     {
@@ -456,12 +521,12 @@
         "documentation": {}
     },
     {
-        "label": "ProfileView",
+        "label": "UserController",
         "kind": 6,
-        "importPath": "app.user.profile_view",
-        "description": "app.user.profile_view",
-        "peekOfCode": "class ProfileView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False  # Track whether we're in \"edit\" mode\n        self.current_room_id = None  # Track room being edited\n        # Initialize the controller with a reference to self\n        self.controller = RoomController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)",
-        "detail": "app.user.profile_view",
+        "importPath": "app.user.user_controller",
+        "description": "app.user.user_controller",
+        "peekOfCode": "class UserController:\n    def __init__(self):\n        self.model = UserModel()\n    def validate_email(self, email):\n        \"\"\"Validate email format.\"\"\"\n        email_regex = r\"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$\"\n        return re.match(email_regex, email) is not None\n    def validate_phone(self, phone):\n        \"\"\"Validate phone number format.\"\"\"\n        if len(phone) == 11 and phone.startswith(\"01\") and phone[2] in \"3456789\" and phone[3:].isdigit():",
+        "detail": "app.user.user_controller",
         "documentation": {}
     },
     {
@@ -469,8 +534,17 @@
         "kind": 6,
         "importPath": "app.user.user_model",
         "description": "app.user.user_model",
-        "peekOfCode": "class UserModel:\n    def __init__(self):\n        self.db = Database()\n    def register_user(self, name, email, password):\n        connection = self.db.connect()\n        cursor = connection.cursor()\n        # Check if email already exists\n        check_query = \"SELECT id FROM users WHERE email = %s\"\n        cursor.execute(check_query, (email,))\n        if cursor.fetchone() is not None:",
+        "peekOfCode": "class UserModel:\n    def __init__(self):\n        self.db = Database()\n    def hash_password(self, password):\n        \"\"\"Hash a plaintext password.\"\"\"\n        salt = bcrypt.gensalt()\n        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)\n        return hashed_password.decode('utf-8')\n    def update_user(self, user_id, name, hashed_password, email, phone, address):\n        \"\"\"Update user profile in the database.\"\"\"",
         "detail": "app.user.user_model",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileView",
+        "kind": 6,
+        "importPath": "app.user.user_view",
+        "description": "app.user.user_view",
+        "peekOfCode": "class ProfileView:\n    def __init__(self, parent, primary_color, secondary_color, session_data=None):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        # Fetch user session data or fallback to session handler\n        self.session_data = session_data or get_session()\n        self.user_id = self.session_data.get(\"id\", None)\n        name = self.session_data.get(\"name\", \"\")\n        email = self.session_data.get(\"email\", \"\")\n        phone = self.session_data.get(\"phone\", \"\")",
+        "detail": "app.user.user_view",
         "documentation": {}
     },
     {
@@ -510,11 +584,47 @@
         "documentation": {}
     },
     {
+        "label": "save_session",
+        "kind": 2,
+        "importPath": "app.session",
+        "description": "app.session",
+        "peekOfCode": "def save_session(data):\n    \"\"\"Save data to the session.\"\"\"\n    global session_data\n    session_data = data\ndef get_session():\n    \"\"\"Retrieve the current session data.\"\"\"\n    return session_data\ndef clear_session():\n    \"\"\"Clear all session data.\"\"\"\n    global session_data",
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "get_session",
+        "kind": 2,
+        "importPath": "app.session",
+        "description": "app.session",
+        "peekOfCode": "def get_session():\n    \"\"\"Retrieve the current session data.\"\"\"\n    return session_data\ndef clear_session():\n    \"\"\"Clear all session data.\"\"\"\n    global session_data\n    session_data = {}",
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "clear_session",
+        "kind": 2,
+        "importPath": "app.session",
+        "description": "app.session",
+        "peekOfCode": "def clear_session():\n    \"\"\"Clear all session data.\"\"\"\n    global session_data\n    session_data = {}",
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
+        "label": "session_data",
+        "kind": 5,
+        "importPath": "app.session",
+        "description": "app.session",
+        "peekOfCode": "session_data = {}\ndef save_session(data):\n    \"\"\"Save data to the session.\"\"\"\n    global session_data\n    session_data = data\ndef get_session():\n    \"\"\"Retrieve the current session data.\"\"\"\n    return session_data\ndef clear_session():\n    \"\"\"Clear all session data.\"\"\"",
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
         "label": "App",
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Main Code\n        # self.show_login()\n        # Debug Purpose start\n        self.show_dashboard()\n        # Debug Purpose end\n    def show_login(self):\n        # Clear the root frame for new view",
+        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Simulate user login session\n        save_session({\n            \"id\": 4,\n            \"name\": \"shanto\",\n            \"email\": \"shanto1@gmail.com\",\n            \"phone\": \"\",\n            \"address\": \"\"",
         "detail": "main",
         "documentation": {}
     }

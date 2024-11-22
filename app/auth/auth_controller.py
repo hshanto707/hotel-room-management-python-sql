@@ -1,12 +1,13 @@
 # app/auth/auth_controller.py
 
-from app.user.user_model import UserModel
+from app.auth.auth_model import AuthModel
 from tkinter import messagebox
+from app.session import save_session
 import re
 
 class AuthController:
     def __init__(self):
-        self.user_model = UserModel()
+        self.model = AuthModel()
 
     def login(self, email, password):
         # Check if email is valid
@@ -15,7 +16,12 @@ class AuthController:
         if len(password) < 8:
             raise ValueError("Password must be at least 8 characters long")
         
-        return self.user_model.authenticate_user(email, password)
+        user_data = self.model.authenticate_user(email, password)
+        if user_data:
+            # Save user data to session
+            save_session(user_data)
+            return True
+        return False
 
     def register(self, name, email, password):
         # Check if email is valid and password length is adequate
@@ -25,7 +31,7 @@ class AuthController:
             raise ValueError("Password must be at least 8 characters long")
         
         try:
-            self.user_model.register_user(name, email, password)
+            self.model.register_user(name, email, password)
             return True
         except ValueError as ve:
             messagebox.showerror("Error", str(ve))

@@ -7,7 +7,8 @@ from ..room.room_view import RoomsView
 from ..customer.customer_view import CustomersView
 from ..reservation.reservation_view import ReservationsView
 from ..billing.billing_view import BillingView
-from app.user.profile_view import ProfileView
+from app.user.user_view import ProfileView
+from app.session import clear_session, get_session
 
 class DashboardView:
     def __init__(self, root, switch_to_login):
@@ -47,9 +48,13 @@ class DashboardView:
         title_label.pack(side="left", padx=20, pady=10)
         title_label.bind("<Button-1>", lambda e: self.show_homepage())  # Click to return to homepage
         
+        # Get username from session
+        session = get_session()
+        user_name = session.get("name", "User")  # Fallback to "User" if name is not in session
+
         # Greetings
         profile_label = tk.Label(
-            header_frame, text="Hello User!", bg=PRIMARY_COLOR, fg=SECONDARY_COLOR, 
+            header_frame, text=f"Hello, {user_name}!", bg=PRIMARY_COLOR, fg=SECONDARY_COLOR, 
             font=("Helvetica", 12)
         )
         profile_label.pack(side="right", padx=20, pady=10)
@@ -111,7 +116,7 @@ class DashboardView:
 
         # Welcome message on the homepage
         welcome_label = tk.Label(
-            self.content_frame, text="Welcome to the Hotel Room Management Dashboard",
+            self.content_frame, text="Welcome to the Hotel Room Management Dashboard!",
             bg=SECONDARY_COLOR, fg=PRIMARY_COLOR, font=("Helvetica", 20, "bold")
         )
         welcome_label.pack(pady=50)
@@ -129,18 +134,19 @@ class DashboardView:
         self.load_page(BillingView)
 
     def load_profile_page(self):
-        self.load_page(ProfileView)
+        self.load_page(ProfileView, session_data=get_session())
     
-    def load_page(self, page_class):
+    def load_page(self, page_class, **kwargs):
         # Clear the content frame
         for widget in self.content_frame.winfo_children():
             widget.destroy()
 
         # Instantiate the page view in the content frame
-        page_class(self.content_frame, PRIMARY_COLOR, SECONDARY_COLOR)
+        page_class(self.content_frame, PRIMARY_COLOR, SECONDARY_COLOR, **kwargs)
 
 
     def logout(self):
         response = messagebox.askyesno("Logout", "Are you sure you want to logout?")
         if response:
+            clear_session()
             self.switch_to_login()

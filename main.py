@@ -2,10 +2,20 @@ from tkinter import Tk
 from app.auth.login_view import LoginView
 from app.dashboard.dashboard_view import DashboardView
 from app.auth.registration_view import RegistrationView
+from app.session import save_session
 
 class App:
     def __init__(self, root):
         self.root = root
+
+        # Simulate user login session
+        save_session({
+            "id": 4,
+            "name": "shanto",
+            "email": "shanto1@gmail.com",
+            "phone": "",
+            "address": ""
+        })
         # Main Code
         
         # self.show_login()
