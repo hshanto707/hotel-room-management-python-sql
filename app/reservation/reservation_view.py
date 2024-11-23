@@ -101,10 +101,16 @@ class ReservationsView:
 
     def load_customers(self):
         customers = self.controller.get_customers()
-        self.customer_dropdown['values'] = [f"{customer['name']} - {customer['phone']}" for customer in customers]
+        self.customer_dropdown['values'] = [f"{customer['name']} ({customer['id']})" for customer in customers]
 
     def handle_add_or_update(self):
-        room_id = self.room_var.get().split("(")[-1][:-1]
+        # Extract roomId from "roomNo - price (roomId)"
+        selected_room = self.room_var.get()
+        room_id = next((room['id'] for room in self.controller.get_rooms() if f"{room['roomNo']} - {room['price']}" == selected_room), None)
+        if not room_id:
+            messagebox.showerror("Error", "Invalid room selection. Please select a valid room.")
+            return
+
         customer_id = self.customer_var.get().split("(")[-1][:-1]
         check_in = self.check_in_entry.get()
         check_out = self.check_out_entry.get()
@@ -134,6 +140,7 @@ class ReservationsView:
             self.reset_form()
         except ValueError as e:
             messagebox.showerror("Error", str(e))
+
 
     def validate_date(self, date_string):
         """

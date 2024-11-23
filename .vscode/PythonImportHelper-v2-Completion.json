@@ -577,7 +577,7 @@
         "kind": 6,
         "importPath": "app.reservation.reservation_controller",
         "description": "app.reservation.reservation_controller",
-        "peekOfCode": "class ReservationController:\n    def __init__(self, view):\n        self.model = ReservationModel()\n        self.view = view\n    def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):\n        # Get userId from session\n        session = get_session()\n        created_by = session.get(\"id\")\n        try:\n            self.model.create_reservation(room_id, customer_id, check_in, check_out, status, total_amount, created_by)",
+        "peekOfCode": "class ReservationController:\n    def __init__(self, view):\n        self.model = ReservationModel()\n        self.view = view\n    def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):\n        # Validate customerId exists\n        customers = self.get_customers()\n        if not any(str(customer['id']) == customer_id for customer in customers):\n            messagebox.showerror(\"Error\", \"Invalid customer selection. Please select a valid customer.\")\n            return",
         "detail": "app.reservation.reservation_controller",
         "documentation": {}
     },

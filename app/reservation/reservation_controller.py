@@ -9,6 +9,12 @@ class ReservationController:
         self.view = view
 
     def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):
+        # Validate customerId exists
+        customers = self.get_customers()
+        if not any(str(customer['id']) == customer_id for customer in customers):
+            messagebox.showerror("Error", "Invalid customer selection. Please select a valid customer.")
+            return
+
         # Get userId from session
         session = get_session()
         created_by = session.get("id")
@@ -26,6 +32,12 @@ class ReservationController:
         return self.model.search_reservations(keyword)
 
     def update_reservation(self, reservation_id, room_id, customer_id, check_in, check_out, status, total_amount):
+        # Validate customerId exists
+        customers = self.get_customers()
+        if not any(str(customer['id']) == customer_id for customer in customers):
+            messagebox.showerror("Error", "Invalid customer selection. Please select a valid customer.")
+            return
+
         # Get userId from session
         session = get_session()
         created_by = session.get("id")
