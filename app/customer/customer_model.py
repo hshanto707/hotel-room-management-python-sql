@@ -11,9 +11,9 @@ class CustomerModel:
             raise Exception("Failed to connect to the database")
         self.cursor = self.conn.cursor(DictCursor)
 
-    def create_customer(self, name, email, phone, address, created_by=1):
+    def create_customer(self, name, email, phone, address, created_by):
         check_query = "SELECT COUNT(*) as count FROM customers WHERE email = %s"
-        self.cursor.execute(check_query, (email,))
+        self.cursor.execute(check_query, (email))
         result = self.cursor.fetchone()
         if result['count'] > 0:
             raise ValueError(f"Customer with email {email} already exists.")
@@ -36,9 +36,14 @@ class CustomerModel:
         self.cursor.execute(query, (keyword, keyword, keyword, keyword))
         return self.cursor.fetchall()
 
-    def update_customer(self, customer_id, name, email, phone, address):
-        query = "UPDATE customers SET name = %s, email = %s, phone = %s, address = %s WHERE id = %s"
-        self.cursor.execute(query, (name, email, phone, address, customer_id))
+    def update_customer(self, customer_id, name, email, phone, address, createdBy):
+        # Corrected query: Removed the extra comma before WHERE
+        query = "UPDATE customers SET name = %s, email = %s, phone = %s, address = %s, createdBy = %s WHERE id = %s"
+        
+        # Execute the query with the provided parameters
+        self.cursor.execute(query, (name, email, phone, address, createdBy, customer_id))
+        
+        # Commit the changes to the database
         self.conn.commit()
 
     def __del__(self):

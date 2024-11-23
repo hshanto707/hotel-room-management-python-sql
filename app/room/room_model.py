@@ -12,7 +12,7 @@ class RoomModel:
         # Use DictCursor to get results as dictionaries
         self.cursor = self.conn.cursor(DictCursor)
 
-    def create_room(self, room_no, room_type, price, status, airConditioning, created_by=1):
+    def create_room(self, room_no, room_type, price, status, airConditioning, created_by):
         # Check for duplicate room number
         check_query = "SELECT COUNT(*) as count FROM rooms WHERE roomNo = %s"
         self.cursor.execute(check_query, (room_no,))
@@ -43,13 +43,13 @@ class RoomModel:
         self.cursor.execute(query, (keyword, keyword, keyword, keyword))
         return self.cursor.fetchall()
 
-    def update_room(self, room_id, room_no, room_type, price, status, airConditioning):
+    def update_room(self, room_id, room_no, room_type, price, status, airConditioning, createdBy):
         query = """
         UPDATE rooms
-        SET roomNo = %s, type = %s, price = %s, status = %s, airConditioning = %s
+        SET roomNo = %s, type = %s, price = %s, status = %s, airConditioning = %s, createdBy = %s
         WHERE roomNo = %s
         """
-        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, room_id))
+        self.cursor.execute(query, (room_no, room_type, price, status, airConditioning, createdBy, room_id))
         self.conn.commit()
 
 
