@@ -85,7 +85,7 @@ class ProfileView:
 
     def validate_email(self, email):
         """Validate email using regex."""
-        email_regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$"
+        email_regex = r"[^@]+@gmail\.com$"
         if re.match(email_regex, email):
             return True
         return False

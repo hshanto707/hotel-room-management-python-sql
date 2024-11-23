@@ -1,8 +1,8 @@
-# app/customer/customer_view.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
+import re
 from app.customer.customer_controller import CustomerController
+
 
 class CustomersView:
     def __init__(self, parent, primary_color, secondary_color):
@@ -73,14 +73,36 @@ class CustomersView:
         self.cancel_button.pack(pady=10, fill="x", ipady=5)
         self.cancel_button.pack_forget()
 
-    def handle_add_or_update(self):
-        name = self.name_entry.get()
-        email = self.email_entry.get()
-        phone = self.phone_entry.get()
-        address = self.address_entry.get()
+    def validate_email(self, email):
+        """Validate email using regex."""
+        email_regex = r"[^@]+@gmail\.com$"
+        if re.match(email_regex, email):
+            return True
+        return False
 
+    def validate_phone(self, phone):
+        """Validate phone number."""
+        if len(phone) == 11 and phone.startswith("01") and phone[2] in "3456789" and phone[3:].isdigit():
+            return True
+        return False
+
+    def handle_add_or_update(self):
+        name = self.name_entry.get().strip()
+        email = self.email_entry.get().strip()
+        phone = self.phone_entry.get().strip()
+        address = self.address_entry.get().strip()
+
+        # Validate inputs
         if not name or not email or not phone or not address:
-            messagebox.showerror("Error", "All fields are required.")
+            messagebox.showerror("Error", "All fields are required!")
+            return
+
+        if not self.validate_email(email):
+            messagebox.showerror("Error", "Invalid email format!")
+            return
+
+        if not self.validate_phone(phone):
+            messagebox.showerror("Error", "Invalid phone number format!")
             return
 
         try:

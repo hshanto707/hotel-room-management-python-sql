@@ -37,13 +37,8 @@ class CustomerModel:
         return self.cursor.fetchall()
 
     def update_customer(self, customer_id, name, email, phone, address, createdBy):
-        # Corrected query: Removed the extra comma before WHERE
         query = "UPDATE customers SET name = %s, email = %s, phone = %s, address = %s, createdBy = %s WHERE id = %s"
-        
-        # Execute the query with the provided parameters
         self.cursor.execute(query, (name, email, phone, address, createdBy, customer_id))
-        
-        # Commit the changes to the database
         self.conn.commit()
 
     def __del__(self):

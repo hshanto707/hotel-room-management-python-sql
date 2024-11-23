@@ -121,6 +121,30 @@
         "documentation": {}
     },
     {
+        "label": "ttk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
         "label": "messagebox",
         "importPath": "tkinter",
         "description": "tkinter",
@@ -185,6 +209,14 @@
         "documentation": {}
     },
     {
+        "label": "get_session",
+        "importPath": "app.session",
+        "description": "app.session",
+        "isExtraImport": true,
+        "detail": "app.session",
+        "documentation": {}
+    },
+    {
         "label": "clear_session",
         "importPath": "app.session",
         "description": "app.session",
@@ -216,6 +248,14 @@
         "importPath": "bcrypt",
         "description": "bcrypt",
         "detail": "bcrypt",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
         "documentation": {}
     },
     {
@@ -356,6 +396,14 @@
         "documentation": {}
     },
     {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
         "label": "CustomerController",
         "importPath": "app.customer.customer_controller",
         "description": "app.customer.customer_controller",
@@ -369,6 +417,30 @@
         "description": "app.user.user_view",
         "isExtraImport": true,
         "detail": "app.user.user_view",
+        "documentation": {}
+    },
+    {
+        "label": "ReservationModel",
+        "importPath": "app.reservation.reservation_model",
+        "description": "app.reservation.reservation_model",
+        "isExtraImport": true,
+        "detail": "app.reservation.reservation_model",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "ReservationController",
+        "importPath": "app.reservation.reservation_controller",
+        "description": "app.reservation.reservation_controller",
+        "isExtraImport": true,
+        "detail": "app.reservation.reservation_controller",
         "documentation": {}
     },
     {
@@ -501,11 +573,29 @@
         "documentation": {}
     },
     {
+        "label": "ReservationController",
+        "kind": 6,
+        "importPath": "app.reservation.reservation_controller",
+        "description": "app.reservation.reservation_controller",
+        "peekOfCode": "class ReservationController:\n    def __init__(self, view):\n        self.model = ReservationModel()\n        self.view = view\n    def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):\n        # Get userId from session\n        session = get_session()\n        created_by = session.get(\"id\")\n        try:\n            self.model.create_reservation(room_id, customer_id, check_in, check_out, status, total_amount, created_by)",
+        "detail": "app.reservation.reservation_controller",
+        "documentation": {}
+    },
+    {
+        "label": "ReservationModel",
+        "kind": 6,
+        "importPath": "app.reservation.reservation_model",
+        "description": "app.reservation.reservation_model",
+        "peekOfCode": "class ReservationModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount, created_by):\n        # Check for duplicate reservations (same room and overlapping dates)\n        overlap_query = \"\"\"\n        SELECT COUNT(*) as count",
+        "detail": "app.reservation.reservation_model",
+        "documentation": {}
+    },
+    {
         "label": "ReservationsView",
         "kind": 6,
         "importPath": "app.reservation.reservation_view",
         "description": "app.reservation.reservation_view",
-        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Billing Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False\n        self.current_reservation_id = None\n        self.controller = ReservationController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)",
         "detail": "app.reservation.reservation_view",
         "documentation": {}
     },
