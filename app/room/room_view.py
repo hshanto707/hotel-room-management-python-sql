@@ -38,7 +38,7 @@ class RoomsView:
 
     def create_form(self):
         # Form Title
-        tk.Label(self.form_frame, text="Add Room", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
+        tk.Label(self.form_frame, text="Rooms", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
 
         # Room Number with validation for 3-digit numbers
         tk.Label(self.form_frame, text="Room No:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")

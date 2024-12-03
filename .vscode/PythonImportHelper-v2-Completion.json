@@ -65,6 +65,30 @@
         "documentation": {}
     },
     {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "ttk",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
+        "label": "messagebox",
+        "importPath": "tkinter",
+        "description": "tkinter",
+        "isExtraImport": true,
+        "detail": "tkinter",
+        "documentation": {}
+    },
+    {
         "label": "ttk",
         "importPath": "tkinter",
         "description": "tkinter",
@@ -291,6 +315,14 @@
         "documentation": {}
     },
     {
+        "label": "Database",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
         "label": "AuthController",
         "importPath": "app.auth.auth_controller",
         "description": "app.auth.auth_controller",
@@ -363,6 +395,70 @@
         "documentation": {}
     },
     {
+        "label": "BillingModel",
+        "importPath": "app.billing.billing_model",
+        "description": "app.billing.billing_model",
+        "isExtraImport": true,
+        "detail": "app.billing.billing_model",
+        "documentation": {}
+    },
+    {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
+        "label": "DictCursor",
+        "importPath": "pymysql.cursors",
+        "description": "pymysql.cursors",
+        "isExtraImport": true,
+        "detail": "pymysql.cursors",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "BillingController",
+        "importPath": "app.billing.billing_controller",
+        "description": "app.billing.billing_controller",
+        "isExtraImport": true,
+        "detail": "app.billing.billing_controller",
+        "documentation": {}
+    },
+    {
         "label": "CustomerModel",
         "importPath": "app.customer.customer_model",
         "description": "app.customer.customer_model",
@@ -377,30 +473,6 @@
         "importPath": "pymysql",
         "description": "pymysql",
         "detail": "pymysql",
-        "documentation": {}
-    },
-    {
-        "label": "DictCursor",
-        "importPath": "pymysql.cursors",
-        "description": "pymysql.cursors",
-        "isExtraImport": true,
-        "detail": "pymysql.cursors",
-        "documentation": {}
-    },
-    {
-        "label": "DictCursor",
-        "importPath": "pymysql.cursors",
-        "description": "pymysql.cursors",
-        "isExtraImport": true,
-        "detail": "pymysql.cursors",
-        "documentation": {}
-    },
-    {
-        "label": "DictCursor",
-        "importPath": "pymysql.cursors",
-        "description": "pymysql.cursors",
-        "isExtraImport": true,
-        "detail": "pymysql.cursors",
         "documentation": {}
     },
     {
@@ -425,14 +497,6 @@
         "description": "app.reservation.reservation_model",
         "isExtraImport": true,
         "detail": "app.reservation.reservation_model",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -528,11 +592,29 @@
         "documentation": {}
     },
     {
+        "label": "BillingController",
+        "kind": 6,
+        "importPath": "app.billing.billing_controller",
+        "description": "app.billing.billing_controller",
+        "peekOfCode": "class BillingController:\n    def __init__(self, view):\n        self.model = BillingModel()\n        self.view = view\n    def get_all_billings(self):\n        \"\"\"Fetch all billing records.\"\"\"\n        return self.model.fetch_all_billings()\n    def search_billings(self, keyword):\n        \"\"\"Search billings based on a keyword.\"\"\"\n        return self.model.search_billings(keyword)",
+        "detail": "app.billing.billing_controller",
+        "documentation": {}
+    },
+    {
+        "label": "BillingModel",
+        "kind": 6,
+        "importPath": "app.billing.billing_model",
+        "description": "app.billing.billing_model",
+        "peekOfCode": "class BillingModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        self.cursor = self.conn.cursor(DictCursor)\n    def fetch_all_billings(self):\n        \"\"\"Fetch all billing records from the database.\"\"\"\n        query = \"\"\"\n        SELECT b.id, b.reservationId, r.totalAmount as reservation, b.amount, b.discount, b.paymentDate, b.status",
+        "detail": "app.billing.billing_model",
+        "documentation": {}
+    },
+    {
         "label": "BillingView",
         "kind": 6,
         "importPath": "app.billing.billing_view",
         "description": "app.billing.billing_view",
-        "peekOfCode": "class BillingView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)\n        tk.Label(\n            self.frame, text=\"Billing Management Section\", bg=secondary_color, \n            fg=primary_color, font=(\"Helvetica\", 18)\n        ).pack(pady=20)",
+        "peekOfCode": "class BillingView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False\n        self.current_billing_id = None\n        self.controller = BillingController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)",
         "detail": "app.billing.billing_view",
         "documentation": {}
     },

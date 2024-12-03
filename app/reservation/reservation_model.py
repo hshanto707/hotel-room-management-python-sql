@@ -1,4 +1,5 @@
-import pymysql
+# app/room/reservation_model.py
+
 from pymysql.cursors import DictCursor
 from app.database import Database
 

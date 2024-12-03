@@ -1,3 +1,5 @@
+# app/room/reservation_view.py
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -36,7 +38,7 @@ class ReservationsView:
 
     def create_form(self):
         # Form Title
-        tk.Label(self.form_frame, text="Add Reservation", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
+        tk.Label(self.form_frame, text="Reservations", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
 
         # Room Dropdown
         tk.Label(self.form_frame, text="Room:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")

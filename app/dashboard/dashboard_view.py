@@ -71,7 +71,7 @@ class DashboardView:
             ("Rooms", self.load_rooms_page),
             ("Customers", self.load_customers_page),
             ("Reservations", self.load_reservations_page),
-            ("Billing", self.load_billing_page)
+            ("Payments", self.load_billing_page)
         ]
 
         for option, command in options:
