@@ -812,7 +812,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Simulate user login session\n        save_session({\n            \"id\": 4,\n            \"name\": \"shanto\",\n            \"email\": \"shanto1@gmail.com\",\n            \"phone\": \"\",\n            \"address\": \"\"",
+        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        self.show_login()\n    def show_login(self):\n        # Clear the root frame for new view\n        for widget in self.root.winfo_children():\n            widget.destroy()\n        # Initialize login view and pass the callback to show the dashboard\n        LoginView(self.root, self.show_registration, self.show_dashboard)",
         "detail": "main",
         "documentation": {}
     }

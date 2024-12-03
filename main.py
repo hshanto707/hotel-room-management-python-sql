@@ -7,24 +7,7 @@ from app.session import save_session
 class App:
     def __init__(self, root):
         self.root = root
-
-        # Simulate user login session
-        save_session({
-            "id": 4,
-            "name": "shanto",
-            "email": "shanto1@gmail.com",
-            "phone": "",
-            "address": ""
-        })
-        # Main Code
-        
-        # self.show_login()
-        
-        # Debug Purpose start
-        
-        self.show_dashboard()
-        
-        # Debug Purpose end
+        self.show_login()
 
     def show_login(self):
         # Clear the root frame for new view
