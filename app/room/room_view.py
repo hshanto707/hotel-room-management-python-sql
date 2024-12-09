@@ -1,5 +1,3 @@
-# app/room/room_view.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from app.room.room_controller import RoomController
@@ -189,8 +187,8 @@ class RoomsView:
             self.room_list.column(col, anchor="center", width=100)
         self.room_list.column("actions", anchor="center", width=150)
 
-        # Bind single-click event for action handling
-        self.room_list.bind("<Button-1>", self.on_single_click)
+        # Bind single-click event for row selection
+        self.room_list.bind("<ButtonRelease-1>", self.on_row_click)
 
         # Pack room list table
         self.room_list.pack(fill="both", expand=True, pady=10)
@@ -216,26 +214,34 @@ class RoomsView:
         for index, room in enumerate(rooms):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
             self.room_list.insert(
-                "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], room['airConditioning'], "Edit | Delete"), tags=(tag,)
+                "", "end", values=(room['roomNo'], room['type'], room['price'], room['status'], room['airConditioning'], "Delete"), tags=(tag,)
             )
 
-    def on_single_click(self, event):
+    def on_row_click(self, event):
         # Identify the row and column where the click occurred
         item_id = self.room_list.identify_row(event.y)
         column_id = self.room_list.identify_column(event.x)
 
-        if item_id and column_id == '#6':  # '#6' corresponds to the "actions" column
+        if item_id:
             room_data = self.room_list.item(item_id, "values")
-            room_id = room_data[0]  # Assuming room ID is in the first column
 
-            # Get the x-coordinate within the actions column to determine if "Edit" or "Delete" was clicked
-            x_offset = event.x - self.room_list.bbox(item_id, column_id)[0]
-
-            # Assuming "Edit" is on the left half and "Delete" on the right half of the actions cell
-            if x_offset < 75:  # Approximate midpoint of 150 width
-                self.initiate_edit(room_data)
-            else:
+            # Check if the clicked column is the "Actions" column
+            if column_id == "#6":  # "#6" corresponds to the "Actions" column
+                # Perform the delete action
                 self.delete_room(room_data)
+            else:
+                # If any other column is clicked, enter edit mode
+                self.initiate_edit(room_data)
+
+    def delete_room(self, room_data):
+        response = messagebox.askyesno("Confirm Delete", f"Are you sure you want to delete Room {room_data[0]}?")
+        if response:
+            try:
+                self.controller.delete_room(room_data[0])  # Delete by room number (or ID)
+                self.update_room_list(self.controller.get_all_rooms())  # Refresh the room list
+                messagebox.showinfo("Success", f"Room {room_data[0]} deleted successfully.")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to delete Room {room_data[0]}.\n{e}")
 
     def initiate_edit(self, room_data):
         self.current_room_id = room_data[0]
@@ -247,20 +253,8 @@ class RoomsView:
         self.room_no_entry.delete(0, tk.END)
         self.room_no_entry.insert(0, room_data[0])
 
-        # Set the value for type_entry (using set since it's a StringVar)
         self.type_entry.set(room_data[1])
-
         self.price_entry.delete(0, tk.END)
         self.price_entry.insert(0, room_data[2])
-
-        # Set the value for status_entry (using set since it's a StringVar)
         self.status_entry.set(room_data[3])
-
-        # Set the value for airConditioning_entry (using set since it's a StringVar)
         self.airConditioning_entry.set(room_data[4])
-
-    def delete_room(self, room_data):
-        response = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this room?")
-        if response:
-            self.controller.delete_room(room_data[0])  # Delete by room ID
-            self.update_room_list(self.controller.get_all_rooms())

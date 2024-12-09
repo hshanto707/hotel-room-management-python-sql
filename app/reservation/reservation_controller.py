@@ -34,6 +34,7 @@ class ReservationController:
         return self.model.search_reservations(keyword)
 
     def update_reservation(self, reservation_id, room_id, customer_id, check_in, check_out, status, total_amount):
+        print('customer_id', customer_id)
         # Validate customerId exists
         customers = self.get_customers()
         if not any(str(customer['id']) == customer_id for customer in customers):

@@ -1,5 +1,3 @@
-# app/room/customer_view.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import re
@@ -145,19 +143,18 @@ class CustomersView:
         self.search_button.pack(side="left", padx=5)
 
         # Customer List Table
-        self.customer_list = ttk.Treeview(self.data_frame, columns=("id", "name", "email", "phone", "address", "actions"), show="headings")
+        self.customer_list = ttk.Treeview(self.data_frame, columns=("id", "name", "email", "phone", "address"), show="headings")
         self.customer_list.heading("id", text="ID")
         self.customer_list.heading("name", text="Name")
         self.customer_list.heading("email", text="Email")
         self.customer_list.heading("phone", text="Phone")
         self.customer_list.heading("address", text="Address")
-        self.customer_list.heading("actions", text="Actions")
 
         for col in ("id", "name", "email", "phone", "address"):
             self.customer_list.column(col, anchor="center", width=100)
-        self.customer_list.column("actions", anchor="center", width=150)
 
-        self.customer_list.bind("<Button-1>", self.on_single_click)
+        # Bind single-click event for row selection
+        self.customer_list.bind("<ButtonRelease-1>", self.on_row_click)
         self.customer_list.pack(fill="both", expand=True, pady=10)
 
         self.customer_list.tag_configure('evenrow', background=self.secondary_color)
@@ -177,14 +174,12 @@ class CustomersView:
         for index, customer in enumerate(customers):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
             self.customer_list.insert(
-                "", "end", values=(customer['Id'], customer['name'], customer['email'], customer['phone'], customer['address'], "Edit"), tags=(tag,)
+                "", "end", values=(customer['Id'], customer['name'], customer['email'], customer['phone'], customer['address']), tags=(tag,)
             )
 
-    def on_single_click(self, event):
-        item_id = self.customer_list.identify_row(event.y)
-        column_id = self.customer_list.identify_column(event.x)
-
-        if item_id and column_id == '#6':
+    def on_row_click(self, event):
+        item_id = self.customer_list.selection()
+        if item_id:
             customer_data = self.customer_list.item(item_id, "values")
             self.initiate_edit(customer_data)
 

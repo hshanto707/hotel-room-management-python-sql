@@ -36,41 +36,34 @@ class ReservationsView:
         self.create_data_view()
 
     def create_form(self):
-        # Form Title
         tk.Label(self.form_frame, text="Reservations", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 16)).pack(pady=10)
 
-        # Room Dropdown
         tk.Label(self.form_frame, text="Room:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.room_var = tk.StringVar()
         self.room_dropdown = ttk.Combobox(self.form_frame, textvariable=self.room_var, state="readonly", font=("Helvetica", 12))
         self.room_dropdown.pack(fill="x", pady=10, ipady=5)
         self.load_rooms()
 
-        # Amount
         tk.Label(self.form_frame, text="Amount:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.amount_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid", state="readonly")
         self.amount_entry.pack(fill="x", pady=10, ipady=5)
 
-        # Customer Dropdown
         tk.Label(self.form_frame, text="Customer:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.customer_var = tk.StringVar()
         self.customer_dropdown = ttk.Combobox(self.form_frame, textvariable=self.customer_var, state="readonly", font=("Helvetica", 12))
         self.customer_dropdown.pack(fill="x", pady=10, ipady=5)
         self.load_customers()
 
-        # Check-in Date (Calendar)
         tk.Label(self.form_frame, text="Check-in Date:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.check_in_calendar = DateEntry(self.form_frame, font=("Helvetica", 12), date_pattern="dd/mm/yyyy")
         self.check_in_calendar.pack(fill="x", pady=10, ipady=5)
 
-        # Check-out Date (Calendar)
         tk.Label(self.form_frame, text="Check-out Date:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.check_out_calendar = DateEntry(self.form_frame, font=("Helvetica", 12), date_pattern="dd/mm/yyyy")
         self.check_out_calendar.pack(fill="x", pady=10, ipady=5)
 
-        # Status Radio Buttons
         tk.Label(self.form_frame, text="Status:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.status_var = tk.StringVar(value="Confirmed")  # Default to "Confirmed"
+        self.status_var = tk.StringVar(value="Confirmed")
         statuses = ["Confirmed", "Cancelled", "Pending"]
         for status in statuses:
             tk.Radiobutton(
@@ -78,19 +71,16 @@ class ReservationsView:
                 bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12), anchor="w"
             ).pack(anchor="w")
 
-        # Total Amount
         tk.Label(self.form_frame, text="Total Amount:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.total_amount_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
         self.total_amount_entry.pack(fill="x", pady=10, ipady=5)
 
-        # Action Buttons
         self.add_button = tk.Button(
             self.form_frame, text="Add Reservation", font=("Helvetica", 14, "bold"),
             bg=self.primary_color, fg="white", relief="flat", command=self.handle_add_or_update, cursor="hand2"
         )
         self.add_button.pack(pady=20, fill="x", ipady=5)
 
-        # Cancel Button (initially hidden)
         self.cancel_button = tk.Button(
             self.form_frame, text="Cancel", font=("Helvetica", 12),
             bg="grey", fg="white", relief="flat", command=self.reset_form, cursor="hand2"
@@ -128,7 +118,17 @@ class ReservationsView:
             messagebox.showerror("Error", "Invalid room selection. Please select a valid room.")
             return
 
-        customer_id = self.customer_var.get().split("(")[-1][:-1]
+        # Extracting customer ID correctly
+        customer_id = None
+        if self.customer_var.get():
+            customer_id_match = self.customer_var.get().split("(")
+            if len(customer_id_match) > 1:
+                customer_id = customer_id_match[-1][:-1]  # Extract ID part
+
+        if not customer_id:
+            messagebox.showerror("Error", "Invalid customer selection. Please select a valid customer.")
+            return
+
         check_in = self.check_in_calendar.get_date().strftime("%d/%m/%Y")
         check_out = self.check_out_calendar.get_date().strftime("%d/%m/%Y")
         status = self.status_var.get()
@@ -174,24 +174,20 @@ class ReservationsView:
         self.current_reservation_id = None
 
     def create_data_view(self):
-        # Search Bar Frame
         search_frame = tk.Frame(self.data_frame, bg="white")
         search_frame.pack(fill="x", pady=10)
 
-        # Search Label and Entry
         tk.Label(search_frame, text="Search:", bg="white", font=("Helvetica", 12)).pack(side="left")
         self.search_entry = tk.Entry(search_frame, font=("Helvetica", 12), bd=2, relief="solid")
         self.search_entry.pack(side="left", fill="x", expand=True, padx=5, ipady=3)
 
-        # Search Button
         self.search_button = tk.Button(
             search_frame, text="Search", command=self.handle_search,
             bg=self.primary_color, fg="white", font=("Helvetica", 12, "bold"), cursor="hand2"
         )
         self.search_button.pack(side="left", padx=5)
 
-        # Reservation List Table
-        self.reservation_list = ttk.Treeview(self.data_frame, columns=("id", "room", "customer", "checkIn", "checkOut", "status", "totalAmount", "actions"), show="headings")
+        self.reservation_list = ttk.Treeview(self.data_frame, columns=("id", "room", "customer", "checkIn", "checkOut", "status", "totalAmount"), show="headings")
         self.reservation_list.heading("id", text="ID")
         self.reservation_list.heading("room", text="Room")
         self.reservation_list.heading("customer", text="Customer")
@@ -199,13 +195,11 @@ class ReservationsView:
         self.reservation_list.heading("checkOut", text="Check-Out")
         self.reservation_list.heading("status", text="Status")
         self.reservation_list.heading("totalAmount", text="Total Amount")
-        self.reservation_list.heading("actions", text="Actions")
 
         for col in ("id", "room", "customer", "checkIn", "checkOut", "status", "totalAmount"):
             self.reservation_list.column(col, anchor="center", width=100)
-        self.reservation_list.column("actions", anchor="center", width=150)
 
-        self.reservation_list.bind("<Button-1>", self.on_single_click)
+        self.reservation_list.bind("<ButtonRelease-1>", self.on_row_click)
         self.reservation_list.pack(fill="both", expand=True, pady=10)
 
         self.reservation_list.tag_configure('evenrow', background=self.secondary_color)
@@ -219,6 +213,7 @@ class ReservationsView:
         self.update_reservation_list(reservations)
 
     def update_reservation_list(self, reservations):
+        
         for i in self.reservation_list.get_children():
             self.reservation_list.delete(i)
 
@@ -232,14 +227,13 @@ class ReservationsView:
             total_amount = reservation.get('totalAmount', 'N/A')
             self.reservation_list.insert(
                 "", "end", values=(
-                    reservation['id'], room_no, customer_name, check_in, check_out, status, total_amount, "Edit"
+                    reservation['id'], room_no, customer_name, check_in, check_out, status, total_amount
                 ), tags=(tag,)
             )
 
-    def on_single_click(self, event):
-        item_id = self.reservation_list.identify_row(event.y)
-        column_id = self.reservation_list.identify_column(event.x)
-        if item_id and column_id == '#8':  # '#8' is the actions column
+    def on_row_click(self, event):
+        item_id = self.reservation_list.selection()
+        if item_id:
             reservation_data = self.reservation_list.item(item_id, "values")
             self.initiate_edit(reservation_data)
 
