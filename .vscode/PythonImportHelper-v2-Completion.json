@@ -443,6 +443,22 @@
         "documentation": {}
     },
     {
+        "label": "DateEntry",
+        "importPath": "tkcalendar",
+        "description": "tkcalendar",
+        "isExtraImport": true,
+        "detail": "tkcalendar",
+        "documentation": {}
+    },
+    {
+        "label": "DateEntry",
+        "importPath": "tkcalendar",
+        "description": "tkcalendar",
+        "isExtraImport": true,
+        "detail": "tkcalendar",
+        "documentation": {}
+    },
+    {
         "label": "BillingController",
         "importPath": "app.billing.billing_controller",
         "description": "app.billing.billing_controller",

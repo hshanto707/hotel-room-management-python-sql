@@ -1,8 +1,7 @@
-# app/room/reservation_view.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+from tkcalendar import DateEntry  # Import the calendar widget
 from app.reservation.reservation_controller import ReservationController
 
 
@@ -59,15 +58,15 @@ class ReservationsView:
         self.customer_dropdown.pack(fill="x", pady=10, ipady=5)
         self.load_customers()
 
-        # Check-in Date
-        tk.Label(self.form_frame, text="Check-in (dd/mm/yyyy):", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.check_in_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
-        self.check_in_entry.pack(fill="x", pady=10, ipady=5)
+        # Check-in Date (Calendar)
+        tk.Label(self.form_frame, text="Check-in Date:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
+        self.check_in_calendar = DateEntry(self.form_frame, font=("Helvetica", 12), date_pattern="dd/mm/yyyy")
+        self.check_in_calendar.pack(fill="x", pady=10, ipady=5)
 
-        # Check-out Date
-        tk.Label(self.form_frame, text="Check-out (dd/mm/yyyy):", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
-        self.check_out_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
-        self.check_out_entry.pack(fill="x", pady=10, ipady=5)
+        # Check-out Date (Calendar)
+        tk.Label(self.form_frame, text="Check-out Date:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
+        self.check_out_calendar = DateEntry(self.form_frame, font=("Helvetica", 12), date_pattern="dd/mm/yyyy")
+        self.check_out_calendar.pack(fill="x", pady=10, ipady=5)
 
         # Status Radio Buttons
         tk.Label(self.form_frame, text="Status:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
@@ -105,36 +104,24 @@ class ReservationsView:
         self.room_dropdown.bind("<<ComboboxSelected>>", self.on_room_selected)
 
     def on_room_selected(self, event):
-        """
-        Fetch and display the amount for the selected room in the amount field.
-        """
         selected_room = self.room_var.get()
-        
         if not selected_room:
             return
-
-        # Extract room ID from the dropdown selection
         room_id = selected_room
-
-        # Fetch room details using the controller
         room_data = self.controller.get_room_by_id(room_id)
-        
         if room_data and 'price' in room_data:
-            # Set the amount field to the room's total amount
-            self.amount_entry.config(state="normal")  # Enable editing temporarily to set the value
+            self.amount_entry.config(state="normal")
             self.amount_entry.delete(0, tk.END)
             self.amount_entry.insert(0, room_data['price'])
-            self.amount_entry.config(state="readonly")  # Make it readonly again
+            self.amount_entry.config(state="readonly")
         else:
             messagebox.showerror("Error", "Failed to fetch the amount for the selected room.")
-
 
     def load_customers(self):
         customers = self.controller.get_customers()
         self.customer_dropdown['values'] = [f"{customer['name']} ({customer['id']})" for customer in customers]
 
     def handle_add_or_update(self):
-        # Extract roomId from "roomNo - price (roomId)"
         selected_room = self.room_var.get()
         room_id = next((room['id'] for room in self.controller.get_rooms() if f"{room['roomNo']}" == selected_room), None)
         if not room_id:
@@ -142,22 +129,14 @@ class ReservationsView:
             return
 
         customer_id = self.customer_var.get().split("(")[-1][:-1]
-        check_in = self.check_in_entry.get()
-        check_out = self.check_out_entry.get()
+        check_in = self.check_in_calendar.get_date().strftime("%d/%m/%Y")
+        check_out = self.check_out_calendar.get_date().strftime("%d/%m/%Y")
         status = self.status_var.get()
         total_amount = self.total_amount_entry.get()
 
-        # Validate dates
-        if not self.validate_date(check_in):
-            messagebox.showerror("Error", "Invalid Check-in date. Ensure it follows dd/mm/yyyy format and valid ranges.")
-            return
-        if not self.validate_date(check_out):
-            messagebox.showerror("Error", "Invalid Check-out date. Ensure it follows dd/mm/yyyy format and valid ranges.")
-            return
         if not self.validate_dates_logic(check_in, check_out):
             return
 
-        # Validate total amount
         if not total_amount.isdigit():
             messagebox.showerror("Error", "Total Amount must be a valid integer.")
             return
@@ -171,53 +150,22 @@ class ReservationsView:
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
-
-    def validate_date(self, date_string):
-        """
-        Validates that a date is in dd/mm/yyyy format and within valid ranges:
-        - dd: 01-31
-        - mm: 01-12
-        - yyyy: 2000 or later
-        """
-        try:
-            day, month, year = map(int, date_string.split('/'))
-            if not (1 <= day <= 31):
-                raise ValueError("Day must be between 01 and 31.")
-            if not (1 <= month <= 12):
-                raise ValueError("Month must be between 01 and 12.")
-            if not (year >= 2000):
-                raise ValueError("Year must be 2000 or later.")
-            # Check if it's a valid calendar date (e.g., handles leap years)
-            datetime(year, month, day)
-            return True
-        except (ValueError, IndexError):
-            return False
-
     def validate_dates_logic(self, check_in, check_out):
-        """
-        Validates that checkOut is not earlier than checkIn.
-        Both dates must be valid and in dd/mm/yyyy format.
-        """
-        try:
-            check_in_date = datetime.strptime(check_in, "%d/%m/%Y")
-            check_out_date = datetime.strptime(check_out, "%d/%m/%Y")
-            if check_out_date < check_in_date:
-                messagebox.showerror("Error", "Check-out date cannot be earlier than check-in date.")
-                return False
-            return True
-        except ValueError:
-            # This should not occur if validate_date is called before this
-            messagebox.showerror("Error", "Invalid date format.")
+        check_in_date = datetime.strptime(check_in, "%d/%m/%Y")
+        check_out_date = datetime.strptime(check_out, "%d/%m/%Y")
+        if check_out_date < check_in_date:
+            messagebox.showerror("Error", "Check-out date cannot be earlier than check-in date.")
             return False
+        return True
 
     def reset_form(self):
         self.room_var.set("")
-        self.amount_entry.config(state="normal")  # Temporarily enable to clear the field
+        self.amount_entry.config(state="normal")
         self.amount_entry.delete(0, tk.END)
-        self.amount_entry.config(state="readonly")  # Set it back to readonly
+        self.amount_entry.config(state="readonly")
         self.customer_var.set("")
-        self.check_in_entry.delete(0, tk.END)
-        self.check_out_entry.delete(0, tk.END)
+        self.check_in_calendar.set_date(datetime.today())
+        self.check_out_calendar.set_date(datetime.today())
         self.status_var.set("Confirmed")
         self.total_amount_entry.delete(0, tk.END)
         self.add_button.config(text="Add Reservation")
@@ -271,22 +219,17 @@ class ReservationsView:
         self.update_reservation_list(reservations)
 
     def update_reservation_list(self, reservations):
-        # Clear the current data in the reservation list
         for i in self.reservation_list.get_children():
             self.reservation_list.delete(i)
 
-        # Insert new data into the reservation list with alternating row colors
         for index, reservation in enumerate(reservations):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
-            
-            # Safeguard for missing keys
-            room_no = reservation.get('roomNo', 'N/A')  # Use roomNo instead of roomId
+            room_no = reservation.get('roomNo', 'N/A')
             customer_name = reservation.get('customer', 'Unknown')
             check_in = reservation.get('checkIn', 'N/A')
             check_out = reservation.get('checkOut', 'N/A')
             status = reservation.get('status', 'N/A')
             total_amount = reservation.get('totalAmount', 'N/A')
-            
             self.reservation_list.insert(
                 "", "end", values=(
                     reservation['id'], room_no, customer_name, check_in, check_out, status, total_amount, "Edit"
@@ -296,7 +239,6 @@ class ReservationsView:
     def on_single_click(self, event):
         item_id = self.reservation_list.identify_row(event.y)
         column_id = self.reservation_list.identify_column(event.x)
-
         if item_id and column_id == '#8':  # '#8' is the actions column
             reservation_data = self.reservation_list.item(item_id, "values")
             self.initiate_edit(reservation_data)
@@ -306,14 +248,10 @@ class ReservationsView:
         self.is_edit_mode = True
         self.add_button.config(text="Update Reservation")
         self.cancel_button.pack(pady=10, fill="x", ipady=5)
-
-        # Populate fields
         self.room_var.set(reservation_data[1])
         self.customer_var.set(reservation_data[2])
-        self.check_in_entry.delete(0, tk.END)
-        self.check_in_entry.insert(0, reservation_data[3])
-        self.check_out_entry.delete(0, tk.END)
-        self.check_out_entry.insert(0, reservation_data[4])
+        self.check_in_calendar.set_date(datetime.strptime(reservation_data[3], "%d/%m/%Y"))
+        self.check_out_calendar.set_date(datetime.strptime(reservation_data[4], "%d/%m/%Y"))
         self.status_var.set(reservation_data[5])
         self.total_amount_entry.delete(0, tk.END)
         self.total_amount_entry.insert(0, reservation_data[6])
