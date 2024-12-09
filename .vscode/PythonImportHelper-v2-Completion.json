@@ -169,14 +169,6 @@
         "documentation": {}
     },
     {
-        "label": "messagebox",
-        "importPath": "tkinter",
-        "description": "tkinter",
-        "isExtraImport": true,
-        "detail": "tkinter",
-        "documentation": {}
-    },
-    {
         "label": "Tk",
         "importPath": "tkinter",
         "description": "tkinter",
@@ -532,6 +524,14 @@
         "documentation": {}
     },
     {
+        "label": "UserController",
+        "importPath": "app.user.user_controller",
+        "description": "app.user.user_controller",
+        "isExtraImport": true,
+        "detail": "app.user.user_controller",
+        "documentation": {}
+    },
+    {
         "label": "LoginView",
         "importPath": "app.auth.login_view",
         "description": "app.auth.login_view",
@@ -731,7 +731,7 @@
         "kind": 6,
         "importPath": "app.user.user_view",
         "description": "app.user.user_view",
-        "peekOfCode": "class ProfileView:\n    def __init__(self, parent, primary_color, secondary_color, session_data=None):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        # Fetch user session data or fallback to session handler\n        self.session_data = session_data or get_session()\n        self.user_id = self.session_data.get(\"id\", None)\n        name = self.session_data.get(\"name\", \"\")\n        email = self.session_data.get(\"email\", \"\")\n        phone = self.session_data.get(\"phone\", \"\")",
+        "peekOfCode": "class ProfileView:\n    def __init__(self, parent, primary_color, secondary_color, session_data=None):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.controller = UserController()\n        # Fetch user session data or fallback to session handler\n        self.session_data = session_data or get_session()\n        self.user_id = self.session_data.get(\"id\", None)\n        name = self.session_data.get(\"name\", \"\")\n        email = self.session_data.get(\"email\", \"\")",
         "detail": "app.user.user_view",
         "documentation": {}
     },
@@ -812,7 +812,7 @@
         "kind": 6,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        self.show_login()\n    def show_login(self):\n        # Clear the root frame for new view\n        for widget in self.root.winfo_children():\n            widget.destroy()\n        # Initialize login view and pass the callback to show the dashboard\n        LoginView(self.root, self.show_registration, self.show_dashboard)",
+        "peekOfCode": "class App:\n    def __init__(self, root):\n        self.root = root\n        # Debug Purpose start\n        # Simulate user login session\n        save_session({\n            \"id\": 4,\n            \"name\": \"shanto\",\n            \"email\": \"shanto1@gmail.com\",\n            \"phone\": \"\",",
         "detail": "main",
         "documentation": {}
     }

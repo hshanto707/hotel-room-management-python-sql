@@ -39,3 +39,8 @@
 
 
 
+# Validations
+    -> Reservation
+        - check-in/check-out
+        - can't book the same room for the same or any of the date range that been booked
+        - 

@@ -1,5 +1,3 @@
-# app/auth/auth_model.py
-
 import bcrypt
 from app.database import Database
 
@@ -20,7 +18,7 @@ class AuthModel:
             raise ValueError("An account with this email already exists")
 
         # Hash the password
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
         # Insert the new user into the database
         insert_query = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)"
@@ -38,15 +36,18 @@ class AuthModel:
         connection = self.db.connect()
         cursor = connection.cursor()
 
-        query = "SELECT id, name, email, password FROM users WHERE email = %s"
+        query = "SELECT * FROM users WHERE email = %s"
         cursor.execute(query, (email,))
         result = cursor.fetchone()
 
-        if result and bcrypt.checkpw(password.encode('utf-8'), result[3].encode('utf-8')):
+        if result and bcrypt.checkpw(password.encode('utf-8'), result[2].encode('utf-8')):
             user_data = {
                 "id": result[0],
                 "name": result[1],
-                "email": result[2],
+                "password": result[2],
+                "email": result[3],
+                "phone": result[4] ,
+                "address": result[5] ,
             }
             cursor.close()
             connection.close()

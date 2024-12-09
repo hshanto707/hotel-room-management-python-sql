@@ -47,6 +47,11 @@ class ReservationsView:
         self.room_dropdown.pack(fill="x", pady=10, ipady=5)
         self.load_rooms()
 
+        # Amount
+        tk.Label(self.form_frame, text="Amount:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
+        self.amount_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid", state="readonly")
+        self.amount_entry.pack(fill="x", pady=10, ipady=5)
+
         # Customer Dropdown
         tk.Label(self.form_frame, text="Customer:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.customer_var = tk.StringVar()
@@ -95,11 +100,34 @@ class ReservationsView:
         self.cancel_button.pack_forget()
 
     def load_rooms(self):
-        """
-        Load rooms into the dropdown in the format 'roomNo - price'.
-        """
         rooms = self.controller.get_rooms()
-        self.room_dropdown['values'] = [f"{room['roomNo']} - {room['price']}" for room in rooms]
+        self.room_dropdown['values'] = [f"{room['roomNo']}" for room in rooms]
+        self.room_dropdown.bind("<<ComboboxSelected>>", self.on_room_selected)
+
+    def on_room_selected(self, event):
+        """
+        Fetch and display the amount for the selected room in the amount field.
+        """
+        selected_room = self.room_var.get()
+        
+        if not selected_room:
+            return
+
+        # Extract room ID from the dropdown selection
+        room_id = selected_room
+
+        # Fetch room details using the controller
+        room_data = self.controller.get_room_by_id(room_id)
+        
+        if room_data and 'price' in room_data:
+            # Set the amount field to the room's total amount
+            self.amount_entry.config(state="normal")  # Enable editing temporarily to set the value
+            self.amount_entry.delete(0, tk.END)
+            self.amount_entry.insert(0, room_data['price'])
+            self.amount_entry.config(state="readonly")  # Make it readonly again
+        else:
+            messagebox.showerror("Error", "Failed to fetch the amount for the selected room.")
+
 
     def load_customers(self):
         customers = self.controller.get_customers()
@@ -108,7 +136,7 @@ class ReservationsView:
     def handle_add_or_update(self):
         # Extract roomId from "roomNo - price (roomId)"
         selected_room = self.room_var.get()
-        room_id = next((room['id'] for room in self.controller.get_rooms() if f"{room['roomNo']} - {room['price']}" == selected_room), None)
+        room_id = next((room['id'] for room in self.controller.get_rooms() if f"{room['roomNo']}" == selected_room), None)
         if not room_id:
             messagebox.showerror("Error", "Invalid room selection. Please select a valid room.")
             return
@@ -184,6 +212,9 @@ class ReservationsView:
 
     def reset_form(self):
         self.room_var.set("")
+        self.amount_entry.config(state="normal")  # Temporarily enable to clear the field
+        self.amount_entry.delete(0, tk.END)
+        self.amount_entry.config(state="readonly")  # Set it back to readonly
         self.customer_var.set("")
         self.check_in_entry.delete(0, tk.END)
         self.check_out_entry.delete(0, tk.END)

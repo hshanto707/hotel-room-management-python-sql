@@ -73,6 +73,12 @@ class ReservationModel:
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
+    def fetch_room_by_id(self, room_id):
+        """Fetch a single room's details, including the total amount."""
+        query = "SELECT id, price FROM rooms WHERE roomNo = %s"
+        self.cursor.execute(query, (room_id,))
+        return self.cursor.fetchone()
+
     def fetch_customers(self):
         # Fetch all customers with name and ID
         query = "SELECT id, name, phone FROM customers"

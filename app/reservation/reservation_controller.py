@@ -54,5 +54,8 @@ class ReservationController:
     def get_rooms(self):
         return self.model.fetch_rooms()
 
+    def get_room_by_id(self, room_id):
+        return self.model.fetch_room_by_id(room_id)
+
     def get_customers(self):
         return self.model.fetch_customers()

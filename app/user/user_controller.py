@@ -1,7 +1,6 @@
 # app/user/user_controller.py
 
 from app.user.user_model import UserModel
-from tkinter import messagebox
 import re
 
 
@@ -22,7 +21,7 @@ class UserController:
 
     def save_profile(self, user_id, name, password, email, phone, address):
         """Save user profile after validation."""
-        if not name or not password or not email or not phone or not address:
+        if not name or not email or not phone or not address:
             raise ValueError("All fields are required.")
 
         if not self.validate_email(email):
@@ -31,9 +30,5 @@ class UserController:
         if not self.validate_phone(phone):
             raise ValueError("Invalid phone number format.")
 
-        # Hash the password (optional, but recommended)
-        hashed_password = self.model.hash_password(password)
-
-        # Update the profile in the database
-        self.model.update_user(user_id, name, hashed_password, email, phone, address)
-        return "Profile updated successfully!"
+        # hashed_password = self.model.hash_password(password) if password else None
+        self.model.update_user(user_id, name, password, email, phone, address)
