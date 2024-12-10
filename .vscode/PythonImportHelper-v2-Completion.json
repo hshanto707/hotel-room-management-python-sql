@@ -443,6 +443,14 @@
         "documentation": {}
     },
     {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "DateEntry",
         "importPath": "tkcalendar",
         "description": "tkcalendar",
@@ -675,7 +683,7 @@
         "kind": 6,
         "importPath": "app.reservation.reservation_controller",
         "description": "app.reservation.reservation_controller",
-        "peekOfCode": "class ReservationController:\n    def __init__(self, view):\n        self.model = ReservationModel()\n        self.view = view\n    def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):\n        # Validate customerId exists\n        customers = self.get_customers()\n        if not any(str(customer['id']) == customer_id for customer in customers):\n            messagebox.showerror(\"Error\", \"Invalid customer selection. Please select a valid customer.\")\n            return",
+        "peekOfCode": "class ReservationController:\n    def __init__(self, view):\n        self.model = ReservationModel()\n        self.view = view\n    def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):\n        print('room_id', room_id)\n        print('customer_id', customer_id)\n        # Validate customerId exists\n        customers = self.get_customers()\n        if not any(customer['id'] == customer_id for customer in customers):",
         "detail": "app.reservation.reservation_controller",
         "documentation": {}
     },
@@ -693,7 +701,7 @@
         "kind": 6,
         "importPath": "app.reservation.reservation_view",
         "description": "app.reservation.reservation_view",
-        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False\n        self.current_reservation_id = None\n        self.controller = ReservationController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)\n        self.frame.pack(fill=\"both\", expand=True)",
+        "peekOfCode": "class ReservationsView:\n    def __init__(self, parent, primary_color, secondary_color):\n        self.primary_color = primary_color\n        self.secondary_color = secondary_color\n        self.is_edit_mode = False\n        self.editted_data = None\n        self.current_reservation_id = None\n        self.controller = ReservationController(self)\n        # Main Frame\n        self.frame = tk.Frame(parent, bg=secondary_color)",
         "detail": "app.reservation.reservation_view",
         "documentation": {}
     },

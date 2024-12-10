@@ -1,3 +1,5 @@
+# app/billing/billing_view.py
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -88,7 +90,7 @@ class BillingView:
 
     def load_reservations(self):
         reservations = self.controller.get_reservations()
-        self.reservation_dropdown['values'] = [f"{r['id']} - {r['totalAmount']}" for r in reservations]
+        self.reservation_dropdown['values'] = [str(r['id']) for r in reservations]
         self.reservation_dropdown.bind("<<ComboboxSelected>>", self.on_reservation_selected)
 
     def on_reservation_selected(self, event):
@@ -96,7 +98,7 @@ class BillingView:
         if not selected_reservation:
             return
 
-        reservation_id = selected_reservation.split(" - ")[0]
+        reservation_id = selected_reservation
         reservation_data = self.controller.get_reservation_by_id(reservation_id)
         if reservation_data and 'totalAmount' in reservation_data:
             self.amount_entry.config(state="normal")
@@ -112,7 +114,7 @@ class BillingView:
             messagebox.showerror("Error", "Please select a reservation.")
             return
 
-        reservation_id = reservation.split(" - ")[0]
+        reservation_id = reservation
         amount = self.amount_entry.get().strip()
         discount = self.discount_entry.get().strip()
         payment_date = self.payment_date_calendar.get_date().strftime("%d/%m/%Y")
@@ -167,20 +169,18 @@ class BillingView:
         )
         self.search_button.pack(side="left", padx=5)
 
-        self.billing_list = ttk.Treeview(self.data_frame, columns=("id", "reservation", "amount", "discount", "paymentDate", "status", "actions"), show="headings")
+        self.billing_list = ttk.Treeview(self.data_frame, columns=("id", "reservation", "amount", "discount", "paymentDate", "status"), show="headings")
         self.billing_list.heading("id", text="ID")
         self.billing_list.heading("reservation", text="Reservation")
         self.billing_list.heading("amount", text="Amount")
         self.billing_list.heading("discount", text="Discount")
         self.billing_list.heading("paymentDate", text="Payment Date")
         self.billing_list.heading("status", text="Status")
-        self.billing_list.heading("actions", text="Actions")
 
         for col in ("id", "reservation", "amount", "discount", "paymentDate", "status"):
             self.billing_list.column(col, anchor="center", width=100)
-        self.billing_list.column("actions", anchor="center", width=150)
 
-        self.billing_list.bind("<Button-1>", self.on_single_click)
+        self.billing_list.bind("<ButtonRelease-1>", self.on_row_click)
         self.billing_list.pack(fill="both", expand=True, pady=10)
 
         self.billing_list.tag_configure('evenrow', background=self.secondary_color)
@@ -206,15 +206,13 @@ class BillingView:
                     billing['amount'],
                     billing['discount'],
                     billing['paymentDate'],
-                    billing['status'],
-                    "Edit"
+                    billing['status']
                 ), tags=(tag,)
             )
 
-    def on_single_click(self, event):
-        item_id = self.billing_list.identify_row(event.y)
-        column_id = self.billing_list.identify_column(event.x)
-        if item_id and column_id == '#7':  # '#7' is the actions column
+    def on_row_click(self, event):
+        item_id = self.billing_list.selection()
+        if item_id:
             billing_data = self.billing_list.item(item_id, "values")
             self.initiate_edit(billing_data)
 
@@ -224,8 +222,7 @@ class BillingView:
         self.add_button.config(text="Update Payment")
         self.cancel_button.pack(pady=10, fill="x", ipady=5)
 
-        reservation_display = f"{billing_data[1]} - {billing_data[2]}"
-        self.reservation_var.set(reservation_display)
+        self.reservation_var.set(billing_data[1])
 
         self.amount_entry.config(state="normal")
         self.amount_entry.delete(0, tk.END)

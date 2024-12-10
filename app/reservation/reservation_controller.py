@@ -1,4 +1,4 @@
-# app/room/reservation_controller.py
+# app/reservation/reservation_controller.py
 
 from app.reservation.reservation_model import ReservationModel
 from tkinter import messagebox
@@ -11,9 +11,11 @@ class ReservationController:
         self.view = view
 
     def add_reservation(self, room_id, customer_id, check_in, check_out, status, total_amount):
+        print('room_id', room_id)
+        print('customer_id', customer_id)
         # Validate customerId exists
         customers = self.get_customers()
-        if not any(str(customer['id']) == customer_id for customer in customers):
+        if not any(customer['id'] == customer_id for customer in customers):
             messagebox.showerror("Error", "Invalid customer selection. Please select a valid customer.")
             return
 
@@ -34,10 +36,13 @@ class ReservationController:
         return self.model.search_reservations(keyword)
 
     def update_reservation(self, reservation_id, room_id, customer_id, check_in, check_out, status, total_amount):
-        print('customer_id', customer_id)
+        print('------------------------------------------------')
+        print('customer_id', reservation_id, room_id, customer_id, check_in, check_out, status, total_amount)
         # Validate customerId exists
         customers = self.get_customers()
-        if not any(str(customer['id']) == customer_id for customer in customers):
+        print('customers', customers)
+        print('------------------------------------------------')
+        if not any(customer['id'] == customer_id for customer in customers):
             messagebox.showerror("Error", "Invalid customer selection. Please select a valid customer.")
             return
 

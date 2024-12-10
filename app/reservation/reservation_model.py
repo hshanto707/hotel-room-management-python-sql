@@ -1,4 +1,4 @@
-# app/room/reservation_model.py
+# app/reservation/reservation_model.py
 
 from pymysql.cursors import DictCursor
 from app.database import Database
@@ -36,10 +36,11 @@ class ReservationModel:
 
     def fetch_all_reservations(self):
         query = """
-        SELECT r.id, ro.roomNo, ro.price, r.customerId, c.name as customer, r.checkIn, r.checkOut, r.status, r.totalAmount
+        SELECT r.id, ro.id as roomId, ro.roomNo, ro.price, r.customerId, c.name as customer, r.checkIn, r.checkOut, r.status, r.totalAmount
         FROM reservations r
         JOIN customers c ON r.customerId = c.id
         JOIN rooms ro ON r.roomId = ro.id
+        ORDER BY r.id DESC
         """
         self.cursor.execute(query)
         return self.cursor.fetchall()
@@ -75,7 +76,7 @@ class ReservationModel:
 
     def fetch_room_by_id(self, room_id):
         """Fetch a single room's details, including the total amount."""
-        query = "SELECT id, price FROM rooms WHERE roomNo = %s"
+        query = "SELECT id, price FROM rooms WHERE id = %s"
         self.cursor.execute(query, (room_id,))
         return self.cursor.fetchone()
 
