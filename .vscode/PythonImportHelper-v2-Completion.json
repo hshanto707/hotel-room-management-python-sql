@@ -647,7 +647,7 @@
         "kind": 6,
         "importPath": "app.customer.customer_controller",
         "description": "app.customer.customer_controller",
-        "peekOfCode": "class CustomerController:\n    def __init__(self, view):\n        self.model = CustomerModel()\n        self.view = view\n    def add_customer(self, name, email, phone, address):\n        # Get userId from session\n        session = get_session()\n        createdBy = session.get(\"id\")\n        try:\n            self.model.create_customer(name, email, phone, address, createdBy)",
+        "peekOfCode": "class CustomerController:\n    def __init__(self, view):\n        self.model = CustomerModel()\n        self.view = view\n    def add_customer(self, name, email, phone, nid, address):\n        session = get_session()\n        createdBy = session.get(\"id\")\n        try:\n            self.model.create_customer(name, email, phone, nid, address, createdBy)\n            self.refresh_customer_list()",
         "detail": "app.customer.customer_controller",
         "documentation": {}
     },
@@ -656,7 +656,7 @@
         "kind": 6,
         "importPath": "app.customer.customer_model",
         "description": "app.customer.customer_model",
-        "peekOfCode": "class CustomerModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_customer(self, name, email, phone, address, created_by):\n        check_query = \"SELECT COUNT(*) as count FROM customers WHERE email = %s\"\n        self.cursor.execute(check_query, (email))\n        result = self.cursor.fetchone()",
+        "peekOfCode": "class CustomerModel:\n    def __init__(self):\n        self.conn = Database.connect()\n        if self.conn is None:\n            raise Exception(\"Failed to connect to the database\")\n        self.cursor = self.conn.cursor(DictCursor)\n    def create_customer(self, name, email, phone, nid, address, created_by):\n        check_query = \"SELECT COUNT(*) as count FROM customers WHERE email = %s\"\n        self.cursor.execute(check_query, (email))\n        result = self.cursor.fetchone()",
         "detail": "app.customer.customer_model",
         "documentation": {}
     },

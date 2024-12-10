@@ -53,6 +53,11 @@ class CustomersView:
         self.phone_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
         self.phone_entry.pack(fill="x", pady=10, ipady=5)
 
+        # NID
+        tk.Label(self.form_frame, text="NID:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
+        self.nid_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
+        self.nid_entry.pack(fill="x", pady=10, ipady=5)
+
         # Address
         tk.Label(self.form_frame, text="Address:", bg=self.secondary_color, fg=self.primary_color, font=("Helvetica", 12)).pack(anchor="w")
         self.address_entry = tk.Entry(self.form_frame, font=("Helvetica", 14), bd=2, relief="solid")
@@ -86,14 +91,21 @@ class CustomersView:
             return True
         return False
 
+    def validate_nid(self, nid):
+        """Validate NID."""
+        if nid.isdigit() and 10 <= len(nid) <= 17:
+            return True
+        return False
+
     def handle_add_or_update(self):
         name = self.name_entry.get().strip()
         email = self.email_entry.get().strip()
         phone = self.phone_entry.get().strip()
+        nid = self.nid_entry.get().strip()
         address = self.address_entry.get().strip()
 
         # Validate inputs
-        if not name or not email or not phone or not address:
+        if not name or not email or not phone or not nid or not address:
             messagebox.showerror("Error", "All fields are required!")
             return
 
@@ -105,11 +117,15 @@ class CustomersView:
             messagebox.showerror("Error", "Invalid phone number format!")
             return
 
+        if not self.validate_nid(nid):
+            messagebox.showerror("Error", "NID must be 10-17 digits long and contain only numbers!")
+            return
+
         try:
             if self.is_edit_mode:
-                self.controller.update_customer(self.current_customer_id, name, email, phone, address)
+                self.controller.update_customer(self.current_customer_id, name, email, phone, nid, address)
             else:
-                self.controller.add_customer(name, email, phone, address)
+                self.controller.add_customer(name, email, phone, nid, address)
             self.reset_form()
         except ValueError as e:
             messagebox.showerror("Error", str(e))
@@ -118,6 +134,7 @@ class CustomersView:
         self.name_entry.delete(0, tk.END)
         self.email_entry.delete(0, tk.END)
         self.phone_entry.delete(0, tk.END)
+        self.nid_entry.delete(0, tk.END)
         self.address_entry.delete(0, tk.END)
 
         self.add_button.config(text="Add Customer")
@@ -143,14 +160,15 @@ class CustomersView:
         self.search_button.pack(side="left", padx=5)
 
         # Customer List Table
-        self.customer_list = ttk.Treeview(self.data_frame, columns=("id", "name", "email", "phone", "address"), show="headings")
+        self.customer_list = ttk.Treeview(self.data_frame, columns=("id", "name", "email", "phone", "nid", "address"), show="headings")
         self.customer_list.heading("id", text="ID")
         self.customer_list.heading("name", text="Name")
         self.customer_list.heading("email", text="Email")
         self.customer_list.heading("phone", text="Phone")
+        self.customer_list.heading("nid", text="NID")
         self.customer_list.heading("address", text="Address")
 
-        for col in ("id", "name", "email", "phone", "address"):
+        for col in ("id", "name", "email", "phone", "nid", "address"):
             self.customer_list.column(col, anchor="center", width=100)
 
         # Bind single-click event for row selection
@@ -174,7 +192,7 @@ class CustomersView:
         for index, customer in enumerate(customers):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
             self.customer_list.insert(
-                "", "end", values=(customer['Id'], customer['name'], customer['email'], customer['phone'], customer['address']), tags=(tag,)
+                "", "end", values=(customer['Id'], customer['name'], customer['email'], customer['phone'], customer['nid'], customer['address']), tags=(tag,)
             )
 
     def on_row_click(self, event):
@@ -198,5 +216,8 @@ class CustomersView:
         self.phone_entry.delete(0, tk.END)
         self.phone_entry.insert(0, customer_data[3])
 
+        self.nid_entry.delete(0, tk.END)
+        self.nid_entry.insert(0, customer_data[4])
+
         self.address_entry.delete(0, tk.END)
-        self.address_entry.insert(0, customer_data[4])
+        self.address_entry.insert(0, customer_data[5])

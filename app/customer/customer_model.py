@@ -11,15 +11,15 @@ class CustomerModel:
             raise Exception("Failed to connect to the database")
         self.cursor = self.conn.cursor(DictCursor)
 
-    def create_customer(self, name, email, phone, address, created_by):
+    def create_customer(self, name, email, phone, nid, address, created_by):
         check_query = "SELECT COUNT(*) as count FROM customers WHERE email = %s"
         self.cursor.execute(check_query, (email))
         result = self.cursor.fetchone()
         if result['count'] > 0:
             raise ValueError(f"Customer with email {email} already exists.")
 
-        query = "INSERT INTO customers (name, email, phone, address, createdBy) VALUES (%s, %s, %s, %s, %s)"
-        self.cursor.execute(query, (name, email, phone, address, created_by))
+        query = "INSERT INTO customers (name, email, phone, nid, address, createdBy) VALUES (%s, %s, %s, %s, %s, %s)"
+        self.cursor.execute(query, (name, email, phone, nid, address, created_by))
         self.conn.commit()
 
     def fetch_all_customers(self):
@@ -30,15 +30,15 @@ class CustomerModel:
     def search_customers(self, keyword):
         query = """
         SELECT * FROM customers
-        WHERE name LIKE %s OR email LIKE %s OR phone LIKE %s OR address LIKE %s
+        WHERE name LIKE %s OR email LIKE %s OR phone LIKE %s OR nid LIKE %s OR address LIKE %s
         """
         keyword = f"%{keyword}%"
-        self.cursor.execute(query, (keyword, keyword, keyword, keyword))
+        self.cursor.execute(query, (keyword, keyword, keyword, keyword, keyword))
         return self.cursor.fetchall()
 
-    def update_customer(self, customer_id, name, email, phone, address, createdBy):
-        query = "UPDATE customers SET name = %s, email = %s, phone = %s, address = %s, createdBy = %s WHERE id = %s"
-        self.cursor.execute(query, (name, email, phone, address, createdBy, customer_id))
+    def update_customer(self, customer_id, name, email, phone, nid, address, createdBy):
+        query = "UPDATE customers SET name = %s, email = %s, phone = %s, nid = %s, address = %s, createdBy = %s WHERE id = %s"
+        self.cursor.execute(query, (name, email, phone, nid, address, createdBy, customer_id))
         self.conn.commit()
 
     def __del__(self):
